@@ -1,0 +1,712 @@
+<!-- ==========================
+     CONTENTS
+=========================== -->
+<!-- 
+1. Navigation Bar
+2. Chat
+3. Sections Content
+  3.1. About Section
+  3.2. Portfolio Section
+    3.2.1. Personal website
+    3.2.2. Custom Interface
+    3.2.3. VehicleTools
+    3.2.4. Personal logo
+    3.2.5. Code & Images Viewer
+  3.3. Socials Section
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BREDDLANE</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>
+  <link rel="shortcut icon" href="/favicon.ico"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+  <meta name="apple-mobile-web-app-title" content="BL"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <meta name="theme-color" content="#0F0F0F">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" id="viewport-meta">
+  <script>
+    const meta = document.getElementById('viewport-meta');
+    const baseWidth = 540;
+    function updateViewport() {
+      const shortSide = Math.min(screen.width, screen.height);
+      const scale = shortSide < baseWidth ? shortSide / baseWidth : 1;
+      meta.setAttribute('content', `width=${baseWidth}, initial-scale=${scale}, user-scalable=no, viewport-fit=cover`);
+    }
+    updateViewport();
+    window.addEventListener('resize', updateViewport);
+  </script>
+</head>
+<body>
+  <div id="bg-container"></div>
+
+  <!-- 1. Navigation Bar -->
+  <nav id="navbar">
+    <div id="chat-button">
+      <svg id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2880 2400" fill="currentColor">
+        <path d="M383.4,1762.1s67.23-22.11,127.8-63.13c134.05-90.76,235.93-365.47,268.2-652.9,0,0,33.85-298.58-45-615.02-25.19-101.1-53.68-173.61-64.8-200.2-41.49-99.24-88.72-176.73-126-230.86,0,0,.09.04.09.04,40.43,17.89,106.75,50.4,188.91,108.17,48.77,34.29,47.29,37.7,104.4,77.55,36.66,25.58,65.54,43.01,72,46.89,60.36,36.23,110.16,59.21,136.8,68.54,242.44,84.89,270.96,91,334.8,142.48,22.98,18.53,139.18,112.23,136.8,248.89-1.97,113.56-85.18,220.22-208.8,277.75,71.25-6.13,214.24-7.72,358.2,70.34,16.87,9.15,81.19,44.75,147.6,111.82,42.39,42.81,97.4,98.36,131.4,191.18,32.4,88.46,29.39,166.16,25.2,205.61-3.57,33.6-11.04,97.59-52.2,167.73-36.83,62.77-83.3,100.95-111.6,120.84,53.09-9.1,127.37-27.74,208.8-68.54,48.17-24.13,113.87-63.55,180-126.25,28.8,7.82,57.6,15.63,86.4,23.45,34.98,9.49,63.95,12.66,88.2,16.23,94.51,13.9,202.76,29.83,324,23.45,40.86-2.15,82.84-6.81,86.4-7.21,38.89-4.37,72.39-9.65,99-14.43-43.33,65.05-104.3,145.71-187.2,229.06-70.35,70.72-134.27,122.31-178.2,153.3-169.64,119.68-352.46,190.47-378,200.2-118.5,45.15-345.36,117.76-658.8,129.86-283.9,10.95-801.68,9.92-1224-324.65C89.38,1942.07,14.4,1783.75,14.4,1783.75c-4.8-10.82-9.6-21.64-14.4-32.46,44.62,15.98,112.29,34.43,196.2,36.07,78.62,1.54,143.21-12.24,187.2-25.25ZM1116,806.2c23.41-.94,68.01-6.02,113.4-34.27,24.12-15.01,56.74-35.3,70.2-73.95,20.52-58.9-18.8-116.68-28.8-131.66-36.73-55.06-92.33-74.57-136.8-90.18-54.75-19.21-102.85-22.04-133.2-21.64,28.58,61.88,56.92,133.58,81,214.63,14.3,48.11,25.46,94,34.2,137.07ZM1153.8,1846.87c78.82-14.08,218.08-52.21,333-167.73,45.73-45.97,97.67-99.65,111.6-185.77,14.28-88.3-14.53-191.36-88.2-256.11-57.8-50.8-125.99-59.97-187.2-68.54-64.08-8.97-117.81-3.91-153,1.8,6.11,44.49,11.02,90.81,14.4,138.88,14.19,201.92-2.33,383.48-30.6,537.47Z"/>
+        <path d="M2849.72,760.59c-23.54-77.71-58.84-128.65-98.75-185.19-25.98-36.81-102.62-140.13-256.75-253.37-224.79-165.16-403.79-196.67-480.75-194.03-22.13.76-76.77,2.63-121.46,40.05-28.54,23.9-42.47,53.47-44.48,57.85-1.96,4.27-5.53,12.12-8.2,22.17-2.06,7.74-8.37,34.74,4.85,79.59,21.16,71.78,74.37,128.21,76.9,132.94,0,.01.04.06.04.06,0,0,0,0,0,0-.01-.03-34.88-62.62-42.77-108.23-.72-4.18-1.76-11.34-1.97-20.58-1.31-13.21-2.94-48.11,18.93-78.36,9.38-12.97,27.72-31.06,72.63-43.04,97.1-25.9,191.12,14.48,247.45,39.17,14.65,6.42,79.95,35.64,156.85,94.16,87.68,66.73,142.18,134.83,167.94,169.69,49,66.32,84.62,114.82,99.68,190.77,7.99,40.29,27.96,141.02-24.46,191.1-76.28,72.88-244.82-19.75-252.13-23.87-33.78-19.04-61.64-42.37-84.6-67.23l112.03-16.67-178.54-103.08,52.02-217.51-162.36,153.81-178.54-103.08,78.2,198.14-162.36,153.81,210.69-31.35,78.2,198.14,27.31-114.2c25.14,34.77,55.65,73.13,90.74,109.1,31.78,32.58,77.54,77.94,150.92,115.22,42.16,21.42,109.63,54.72,201.11,53.47,47.95-.66,149.5-2.05,217.67-72.36,110.59-114.06,47.83-321.29,33.97-367.08Z"/>
+      </svg>
+      <div id="chat-button-tooltip"></div>
+    </div>
+    <button id="nav-toggle">
+      <svg id="icon-burger" viewBox="0 0 18 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line class="line top" x1="0" y1="6" x2="18" y2="6" />
+        <line class="line middle" x1="0" y1="12" x2="18" y2="12" />
+        <line class="line bottom" x1="0" y1="18" x2="18" y2="18" />
+      </svg>
+    </button>
+    <ul id="nav-links">
+      <li><a href="/about" class="nav-link" data-section="about" data-ru="nav-link-1">ABOUT</a></li>
+      <li><a href="/portfolio" class="nav-link" data-section="portfolio" data-ru="nav-link-2">PORTFOLIO</a></li>
+      <li><a href="/socials" class="nav-link" data-section="socials" data-ru="nav-link-3">SOCIALS</a></li>
+    </ul>
+    <div id="toggle-lang">
+      <div id="lang-bg-base"></div>
+      <div id="lang-bg"></div>
+      <div class="lang-option en"><span>EN</span></div>
+      <div class="lang-option ru"><span>RU</span></div>
+    </div>
+  </nav>
+  <div id="nav-blur-overlay"></div>
+
+  <!-- 2. Chat -->
+  <div id="chat-overlay"></div>
+  <div id="chat-window">
+    <div id="chat-messages"></div>
+    <div id="chat-messages-fade"></div>
+    <div id="chat-scrollbar-thumb"></div>
+    <div id="chat-header" data-ru="chat-header">AI ASSISTANT</div>
+    <button id="chat-close">
+      <span id="chat-close-label" data-ru="chat-close-label">CLOSE</span>
+      <span id="chat-close-icon">&times;</span>
+    </button>
+    <input type="text" id="chat-input"/>
+    <button id="chat-send" class="hide">
+      <svg id="icon-arrow" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="256" cy="256" r="256" fill="currentColor"/>
+        <path class="arrow" fill="white" d="M297 353c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H152c-13.3 0-24-10.7-24-24s10.7-24 24-24h150.1l-39-39c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80z"/>
+      </svg>
+      <svg id="icon-spinner" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="256" cy="256" r="256" fill="currentColor"/>
+        <circle cx="256" cy="256" r="120" fill="none" stroke="white" stroke-width="32" stroke-linecap="round" stroke-dasharray="240 600">
+          <animateTransform attributeName="transform" type="rotate" from="0 256 256" to="360 256 256" dur="1s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </button>
+  </div>
+
+  <!-- 3. Sections Content -->
+  <div id="sections-container">
+
+    <!-- 3.1. About Section -->
+    <section id="about" class="section">
+      <div class="section-inner">
+        <div id="about-wrapper">
+          <div class="about-block main-block">
+            <div class="main-block-shine"></div>
+            <h2 data-ru="about-header">ABOUT ME</h2>
+            <div class="content-wrapper">
+              <h3 data-ru="about-text-1">Hi! I’m Muhammad</h3>
+              <h3 data-ru="about-text-2">Also known as Bredd Lane</h3>
+              <h3 data-ru="about-text-3">From Azerbaijan</h3>
+              <h3 data-ru="about-text-4"><span id="age"></span> years old</h3>
+              <p data-ru="about-text-5">I enjoy story-driven games, movies, and exploring creative ideas. I’m developing my skills in web development, UI/UX, and graphic design, exploring new techniques and approaches along the way.</p>
+              <p><b data-ru="about-text-6">If you’re interested in a high-quality custom website with modern design, feel free to reach out.</b></p>
+            </div>
+          </div>
+          <div id="about-side">
+            <div class="side-block education main-block">
+              <div class="main-block-shine"></div>
+              <h2 data-ru="education-header">EDUCATION</h2>
+              <div class="content-wrapper">
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <h3 data-ru="education-text-1">The Academy of Public Administration under the President of the Republic of Azerbaijan</h3>
+                </div>
+                <div class="timeline-line"></div>
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <p data-ru="education-text-2">Bachelor in Economics</p>
+                </div>
+                <div class="timeline-line"></div>
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <p data-ru="education-text-3">Sep 2022 &mdash; Jul 2026</p>
+                </div>
+              </div>
+            </div>
+            <div class="side-block languages main-block">
+              <div class="main-block-shine"></div>
+              <h2 data-ru="languages-header">LANGUAGES</h2>
+              <div class="content-wrapper">
+                <div class="language">
+                  <span data-ru="languages-text-1">RUSSIAN</span>
+                  <div class="progress"><div class="progress-bar" data-width="100%"></div></div>
+                </div>
+                <div class="language">
+                  <span data-ru="languages-text-2">ENGLISH</span>
+                  <div class="progress"><div class="progress-bar" data-width="90%"></div></div>
+                </div>
+                <div class="language">
+                  <span data-ru="languages-text-3">AZERBAIJANI</span>
+                  <div class="progress"><div class="progress-bar" data-width="80%"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>        
+      </div>
+      <div class="custom-scrollbar">
+        <div class="custom-thumb"></div>
+      </div>
+    </section>
+
+    <!-- 3.2. Portfolio Section -->
+    <section id="portfolio" class="section">
+      <div class="section-inner">
+        <div id="portfolio-wrapper">
+          <div class="projects-block main-block">
+            <div class="main-block-shine"></div>
+            <h2 data-ru="web-header">WEB</h2>
+            <ul class="projects-list">
+              <li>
+                <a href="/portfolio/personal-website" data-section="personal-website">
+                  <span class="icon complete-website"></span>
+                  <span class="icon personal"></span>
+                  <span class="project-text" data-ru="personal-website">Personal website</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="projects-block main-block">
+            <div class="main-block-shine"></div>
+            <h2 data-ru="software-header">SOFTWARE</h2>
+            <ul class="projects-list">
+              <li>
+                <a href="/portfolio/custom-interface" data-section="custom-interface">
+                  <span class="icon game-mod"></span>
+                  <span class="icon community"></span>
+                  <span class="project-text">Custom Interface</span>
+                </a>
+              </li>
+              <li>
+                <a href="/portfolio/vehicletools" data-section="vehicletools">
+                  <span class="icon game-mod"></span>
+                  <span class="icon community"></span>
+                  <span class="project-text">VehicleTools</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="projects-block main-block">
+            <div class="main-block-shine"></div>
+            <h2 data-ru="graphics-header">GRAPHICS</h2>
+            <ul class="projects-list">
+              <li>
+                <a href="/portfolio/personal-logo" data-section="personal-logo">
+                  <span class="icon vector-design"></span>
+                  <span class="icon personal"></span>
+                  <span class="project-text" data-ru="personal-logo">Personal logo</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div id="overlay">
+          <div id="overlay-custom-scrollbar">
+            <div id="overlay-custom-thumb"></div>
+          </div>
+          <button id="overlay-back">
+            <span data-ru="overlay-back">❮ Back</span>
+          </button>
+          <div id="overlay-inner">
+            <h1 id="overlay-title"></h1>
+            <div id="overlay-content">
+
+              <!-- 3.2.1. Personal website -->
+              <div class="project-content" data-project="personal-website">
+                <div class="project-tech">
+                  <div class="tech-badge">
+                    <span class="tech-icon"></span>
+                    <span class="tech-name">HTML</span>
+                  </div>
+                  <div class="tech-badge">
+                    <span class="tech-icon"></span>
+                    <span class="tech-name">CSS</span>
+                  </div>
+                  <div class="tech-badge">
+                    <span class="tech-icon"></span>
+                    <span class="tech-name">JavaScript</span>
+                  </div>
+                  <div class="tech-badge">
+                    <span class="tech-icon"></span>
+                    <span class="tech-name">Node.js</span>
+                  </div>
+                  <div class="tech-badge">
+                    <span class="tech-icon"></span>
+                    <span class="tech-name">SQLite</span>
+                  </div>
+                </div>
+                <h3 data-ru="overlay-files-header-p">FILES</h3>
+                <div class="project-files">
+                  <div class="file-item">
+                    <span class="file-name">index.html</span>
+                    <div class="file-actions">
+                      <div class="button-wrapper">
+                        <a href="/index.html" download class="overlay-button save"></a>
+                        <div class="tooltip"></div>
+                      </div>
+                      <div class="button-wrapper">
+                        <button class="overlay-button code" data-file="/index.html" data-language="xml"></button>
+                        <div class="tooltip" data-ru="tooltip-code">View Code</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="file-item">
+                    <span class="file-name">style.css</span>
+                    <div class="file-actions">
+                      <div class="button-wrapper">
+                        <a href="/style.css" download class="overlay-button save"></a>
+                        <div class="tooltip"></div>
+                      </div>
+                      <div class="button-wrapper">
+                        <button class="overlay-button code" data-file="/style.css" data-language="css"></button>
+                        <div class="tooltip" data-ru="tooltip-code">View Code</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="file-item">
+                    <span class="file-name">script.js</span>
+                    <div class="file-actions">
+                      <div class="button-wrapper">
+                        <a href="/script.js" download class="overlay-button save"></a>
+                        <div class="tooltip"></div>
+                      </div>
+                      <div class="button-wrapper">
+                        <button class="overlay-button code" data-file="/script.js" data-language="javascript"></button>
+                        <div class="tooltip" data-ru="tooltip-code">View Code</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="overlay-text" data-ru="personal-website-d"><b>Description:</b> A custom single-page application built with vanilla JavaScript, featuring routing, state management, forms, and validation. Fully responsive with custom UI and UX on both desktop and touch devices. Includes a modern design, smooth animations, an image gallery, and a code viewer. Integrated AI chat powered by GPT with context retention. Backend powered by Node.js with SQLite for storing necessary data, including daily GPT token limits. User identification and limits handled without traditional authentication using UID and fingerprinting. Provides security and usage protection features.</p>
+                <p class="overlay-text" data-ru="supported-lang-1"><b>Supported languages:</b> English, Russian</p>
+                <div class="project-development-dates">
+                  <p class="overlay-text" data-ru="personal-website-date-d"><b>Development:</b> 30 Aug 2025 &mdash; 1 Dec 2025</p>
+                  <p class="overlay-text" data-ru="personal-website-date-s"><b>Support:</b> Ongoing</p>
+                </div>
+                <h3 data-ru="overlay-links-header-s">LINK</h3>
+                <div class="project-links">
+                  <a href="https://breddlane.com" class="link-card" target="_blank" rel="noopener noreferrer">
+                    <img class="link-card-icon" alt="Website icon">
+                    <div class="link-card-info">
+                      <h4 class="link-card-title" data-ru="personal-website-link-t">You're already here!</h4>
+                      <p class="link-card-description" data-ru="personal-website-link-d">But here's the link if you want...</p>
+                    </div>
+                    <div class="button-wrapper">
+                      <button class="overlay-button copy"></button>
+                      <div class="tooltip" data-ru="tooltip-copy">Copy URL</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <!-- 3.2.2. Custom Interface -->
+              <div class="project-content" data-project="custom-interface">
+                <div class="project-tech">
+                  <div class="tech-badge">
+                    <span class="tech-icon"></span>
+                    <span class="tech-name">Lua</span>
+                  </div>
+                </div>
+                <h3 data-ru="overlay-files-header-s">FILE</h3>
+                <div class="project-files">
+                  <div class="file-item">
+                    <span class="file-name">!CInt.lua</span>
+                    <div class="file-actions">
+                      <div class="button-wrapper">
+                        <a href="/files/projects/Custom Interface/!CInt.lua" download class="overlay-button save"></a>
+                        <div class="tooltip"></div>
+                      </div>
+                      <div class="button-wrapper">
+                        <button class="overlay-button code" data-file="/files/projects/Custom Interface/!CInt.lua" data-language="lua" data-encoding="windows-1251"></button>
+                        <div class="tooltip" data-ru="tooltip-code">View Code</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h3 data-ru="overlay-images-header-p">IMAGES</h3>
+                <div class="project-images">
+                  <div class="images-arrow left" data-direction="left"></div>
+                  <div class="images" id="images-custom-interface"></div>
+                  <div class="images-arrow right" data-direction="right"></div>
+                </div>
+                <h3 data-ru="overlay-video-header">VIDEO</h3>
+                <div class="project-video-wrapper">
+                  <div class="media-loader"></div>
+                  <iframe 
+                    class="youtube-player"
+                    src="https://www.youtube.com/embed/Jq77C1FCSxM?enablejsapi=1"
+                    title="YouTube Video Player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                    loading="lazy">
+                  </iframe>
+                </div>
+                <p class="overlay-text" data-ru="custom-interface-d"><b>Description:</b> Enhances the in-game interface with customizable HUD elements and widgets, featuring a Windows 10–style settings menu and built-in auto-update, all powered by ImGui. Includes one post-release update.</p>
+                <p class="overlay-text"><b data-ru="game-header">Game:</b> Grand Theft Auto: San Andreas Multiplayer (SA-MP)</p>
+                <p class="overlay-text" data-ru="supported-lang-2"><b>Supported language:</b> Russian</p>
+                <div class="project-development-dates">
+                  <p class="overlay-text" data-ru="custom-interface-date-d"><b>Development:</b> 11 Oct 2020 &mdash; 29 Nov 2020</p>
+                  <p class="overlay-text" data-ru="custom-interface-date-s"><b>Support:</b> until Feb 2021</p>
+                </div>
+                <h3 data-ru="overlay-links-header-s">LINK</h3>
+                <div class="project-links">
+                  <a href="https://www.blast.hk/threads/71144/" class="link-card" target="_blank" rel="noopener noreferrer">
+                    <img class="link-card-icon" alt="Website icon">
+                    <div class="link-card-info">
+                      <h4 class="link-card-title" data-ru="blasthack-link-t">BlastHack Thread</h4>
+                      <p class="link-card-description" data-ru="blasthack-link-d">Detailed forum thread including: feature descriptions, requirements, installation instructions, changelog with version history, and community discussion with Q&A.</p>
+                    </div>
+                    <div class="button-wrapper">
+                      <button class="overlay-button copy"></button>
+                      <div class="tooltip" data-ru="tooltip-copy">Copy URL</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <!-- 3.2.3. VehicleTools -->
+              <div class="project-content" data-project="vehicletools">
+                <div class="project-tech">
+                  <div class="tech-badge">
+                    <span class="tech-icon"></span>
+                    <span class="tech-name">Lua</span>
+                  </div>
+                </div>
+                <h3 data-ru="overlay-files-header-s">FILE</h3>
+                <div class="project-files">
+                  <div class="file-item">
+                    <span class="file-name">VehicleTools.lua</span>
+                    <div class="file-actions">
+                      <div class="button-wrapper">
+                        <a href="/files/projects/VehicleTools/VehicleTools.lua" download class="overlay-button save"></a>
+                        <div class="tooltip"></div>
+                      </div>
+                      <div class="button-wrapper">
+                        <button class="overlay-button code" data-file="/files/projects/VehicleTools/VehicleTools.lua" data-language="lua" data-encoding="windows-1251"></button>
+                        <div class="tooltip" data-ru="tooltip-code">View Code</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h3 data-ru="overlay-images-header-p">IMAGES</h3>
+                <div class="project-images">
+                  <div class="images-arrow left" data-direction="left"></div>
+                  <div class="images" id="images-vehicletools"></div>
+                  <div class="images-arrow right" data-direction="right"></div>
+                </div>
+                <p class="overlay-text" data-ru="vehicletools-d"><b>Description:</b> Provides in-game tools for advanced vehicle interaction with customizable features, a user-friendly interface, and a built-in auto-update system, using ImGui. Includes 17 post-release updates, 5 of which were feature updates.</p>
+                <p class="overlay-text"><b data-ru="game-header">Game:</b> Grand Theft Auto: San Andreas Multiplayer (SA-MP)</p>
+                <p class="overlay-text" data-ru="supported-lang-2"><b>Supported language:</b> Russian</p>
+                <div class="project-development-dates">
+                  <p class="overlay-text" data-ru="vehicletools-date-d"><b>Development:</b> 8 Jun 2020 &mdash; 6 Jul 2020</p>
+                  <p class="overlay-text" data-ru="vehicletools-date-s"><b>Support:</b> until Dec 2020</p>
+                </div>
+                <h3 data-ru="overlay-links-header-s">LINK</h3>
+                <div class="project-links">
+                  <a href="https://www.blast.hk/threads/59003/" class="link-card" target="_blank" rel="noopener noreferrer">
+                    <img class="link-card-icon" alt="Website icon">
+                    <div class="link-card-info">
+                      <h4 class="link-card-title" data-ru="blasthack-link-t">BlastHack Thread</h4>
+                      <p class="link-card-description" data-ru="blasthack-link-d">Detailed forum thread including: feature descriptions, requirements, installation instructions, changelog with version history, and community discussion with Q&A.</p>
+                    </div>
+                    <div class="button-wrapper">
+                      <button class="overlay-button copy"></button>
+                      <div class="tooltip" data-ru="tooltip-copy">Copy URL</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <!-- 3.2.4. Personal logo -->
+              <div class="project-content" data-project="personal-logo">
+                <div class="project-tech">
+                  <div class="tech-badge">
+                    <span class="tech-icon"></span>
+                    <span class="tech-name">Adobe Illustrator</span>
+                  </div>
+                </div>
+                <h3 data-ru="overlay-files-header-s">FILE</h3>
+                <div class="project-files">
+                  <div class="file-item">
+                    <span class="file-name">breddlane-logo.svg</span>
+                    <div class="file-actions">
+                      <div class="button-wrapper">
+                        <a href="/files/projects/Personal logo/breddlane-logo.svg" download class="overlay-button save"></a>
+                        <div class="tooltip"></div>
+                      </div>
+                      <div class="button-wrapper">
+                        <button class="overlay-button code" data-file="/files/projects/Personal logo/breddlane-logo.svg" data-language="xml"></button>
+                        <div class="tooltip" data-ru="tooltip-code">View Code</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h3 data-ru="overlay-images-header-s">IMAGE</h3>
+                <div class="project-images">
+                  <div class="images-arrow left" data-direction="left"></div>
+                  <div class="images" id="images-personal-logo"></div>
+                  <div class="images-arrow right" data-direction="right"></div>
+                </div>
+                <p class="overlay-text" data-ru="personal-logo-d"><b>Description:</b> Intertwined letters B and L, with the vertical stroke of the B connected to the vertical of the L, which extends slightly to the left for visual balance. The letterforms taper into subtle, feather-like points, while the overall rounded shape resembles a boat with a sail. A shooting star appears to the right, referencing earlier logo versions and contributing to the composition’s balance.</p>
+                <p class="overlay-text" data-ru="personal-logo-date"><b>Date:</b> 21 Sep 2025</p>
+              </div>
+            </div>
+          </div>
+
+            <!-- 3.2.5. Code & Images Viewer -->
+            <div id="viewer-overlay">
+              <div id="viewer-content">
+                <span id="viewer-index"></span>
+                <div id="viewer-top-bar">
+                  <div id="viewer-text-wrapper">
+                    <span id="viewer-file-name"></span>
+                  </div>
+                  <div id="viewer-controls-wrapper">
+                    <div id="viewer-controls">
+                      <svg id="viewer-zoom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M8.195 0c4.527 0 8.196 3.62 8.196 8.084a7.989 7.989 0 0 1-1.977 5.267l5.388 5.473a.686.686 0 0 1-.015.98a.71.71 0 0 1-.993-.014l-5.383-5.47a8.23 8.23 0 0 1-5.216 1.849C3.67 16.169 0 12.549 0 8.084C0 3.62 3.67 0 8.195 0Zm0 1.386c-3.75 0-6.79 2.999-6.79 6.698c0 3.7 3.04 6.699 6.79 6.699s6.791-3 6.791-6.699c0-3.7-3.04-6.698-6.79-6.698Zm.11 2.19c.383 0 .693.314.693.702v2.976h2.976c.388 0 .703.31.703.693a.698.698 0 0 1-.703.693l-2.976-.001v2.977c0 .388-.31.703-.693.703a.698.698 0 0 1-.693-.703V8.64H4.636a.698.698 0 0 1-.702-.692c0-.383.314-.693.702-.693h2.976V4.278c0-.388.31-.703.693-.703Z"/>
+                      </svg>
+                      <svg id="viewer-fullscreen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                          <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+                      </svg>
+                      <svg id="viewer-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 30L30 2m0 28L2 2"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div id="viewer-code-wrapper">
+                  <div id="viewer-code">
+                    <div id="viewer-code-lines"></div>
+                    <pre><code></code></pre>
+                  </div>
+                  <div id="viewer-code-scrollbar">
+                    <div id="viewer-code-scrollbar-thumb"></div>
+                  </div>
+                  <div id="viewer-code-scrollbar-horizontal">
+                    <div id="viewer-code-scrollbar-thumb-horizontal"></div>
+                  </div>
+                </div>
+                <div id="viewer-image-main">
+                  <div id="viewer-image-container">
+                    <img src="" class="viewer-image viewer-image-current" alt="">
+                    <img src="" class="viewer-image viewer-image-next" alt="">
+                  </div>
+                  <div class="viewer-arrow left"></div>
+                  <div class="viewer-arrow right"></div>
+                </div>
+                <div id="viewer-caption"></div>
+                <div id="viewer-thumbnails-wrapper">
+                  <div id="viewer-thumbnails">
+                    <div id="viewer-thumbnails-container"></div>
+                  </div>
+                  <div id="viewer-images-scrollbar">
+                    <div id="viewer-images-scrollbar-thumb"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="custom-scrollbar">
+        <div class="custom-thumb"></div>
+      </div>
+    </section>
+
+    <!-- 3.3. Socials Section -->
+    <section id="socials" class="section">
+      <div class="section-inner">
+        <div id="socials-wrapper">
+          <div class="socials-block main-block">
+            <div class="main-block-shine"></div>
+            <h2 data-ru="socials-header-1">CONTACT</h2>
+            <ul class="socials-list">
+              <li>
+                <a class="copy-link" href="/socials" data-content="contact@breddlane.com">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="m7.172 11.334l2.83 1.935l2.728-1.882l6.115 6.033c-.161.052-.333.08-.512.08H1.667c-.22 0-.43-.043-.623-.12l6.128-6.046ZM20 6.376v9.457c0 .247-.054.481-.15.692l-5.994-5.914L20 6.376ZM0 6.429l6.042 4.132l-5.936 5.858A1.663 1.663 0 0 1 0 15.833V6.43ZM18.333 2.5c.92 0 1.667.746 1.667 1.667v.586L9.998 11.648L0 4.81v-.643C0 3.247.746 2.5 1.667 2.5h16.666Z"/>
+                  </svg>
+                  <span>Email</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://t.me/breddlane" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12a12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472c-.18 1.898-.962 6.502-1.36 8.627c-.168.9-.499 1.201-.82 1.23c-.696.065-1.225-.46-1.9-.902c-1.056-.693-1.653-1.124-2.678-1.8c-1.185-.78-.417-1.21.258-1.91c.177-.184 3.247-2.977 3.307-3.23c.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345c-.48.33-.913.49-1.302.48c-.428-.008-1.252-.241-1.865-.44c-.752-.245-1.349-.374-1.297-.789c.027-.216.325-.437.893-.663c3.498-1.524 5.83-2.529 6.998-3.014c3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                  </svg>
+                  <span>Telegram</span>
+                </a>
+              </li>
+              <li>
+                <a class="copy-link" href="/socials" data-content="breddlane">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418Z"/>
+                  </svg>
+                  <span>Discord</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/breddlane" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C8.74 0 8.333.015 7.053.072C5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053C.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913a5.885 5.885 0 0 0 1.384 2.126A5.868 5.868 0 0 0 4.14 23.37c.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558a5.898 5.898 0 0 0 2.126-1.384a5.86 5.86 0 0 0 1.384-2.126c.296-.765.499-1.636.558-2.913c.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913a5.89 5.89 0 0 0-1.384-2.126A5.847 5.847 0 0 0 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071c1.17.055 1.805.249 2.227.415c.562.217.96.477 1.382.896c.419.42.679.819.896 1.381c.164.422.36 1.057.413 2.227c.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227a3.81 3.81 0 0 1-.899 1.382a3.744 3.744 0 0 1-1.38.896c-.42.164-1.065.36-2.235.413c-1.274.057-1.649.07-4.859.07c-3.211 0-3.586-.015-4.859-.074c-1.171-.061-1.816-.256-2.236-.421a3.716 3.716 0 0 1-1.379-.899a3.644 3.644 0 0 1-.9-1.38c-.165-.42-.359-1.065-.42-2.235c-.045-1.26-.061-1.649-.061-4.844c0-3.196.016-3.586.061-4.861c.061-1.17.255-1.814.42-2.234c.21-.57.479-.96.9-1.381c.419-.419.81-.689 1.379-.898c.42-.166 1.051-.361 2.221-.421c1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324a6.162 6.162 0 1 0 0-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4s4 1.79 4 4s-1.79 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0a1.44 1.44 0 0 1 2.88 0z"/>
+                  </svg>
+                  <span>Instagram</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://vk.com/breddlane" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="m9.489.004l.729-.003h3.564l.73.003l.914.01l.433.007l.418.011l.403.014l.388.016l.374.021l.36.025l.345.03l.333.033c1.74.196 2.933.616 3.833 1.516c.9.9 1.32 2.092 1.516 3.833l.034.333l.029.346l.025.36l.02.373l.025.588l.012.41l.013.644l.009.915l.004.98l-.001 3.313l-.003.73l-.01.914l-.007.433l-.011.418l-.014.403l-.016.388l-.021.374l-.025.36l-.03.345l-.033.333c-.196 1.74-.616 2.933-1.516 3.833c-.9.9-2.092 1.32-3.833 1.516l-.333.034l-.346.029l-.36.025l-.373.02l-.588.025l-.41.012l-.644.013l-.915.009l-.98.004l-3.313-.001l-.73-.003l-.914-.01l-.433-.007l-.418-.011l-.403-.014l-.388-.016l-.374-.021l-.36-.025l-.345-.03l-.333-.033c-1.74-.196-2.933-.616-3.833-1.516c-.9-.9-1.32-2.092-1.516-3.833l-.034-.333l-.029-.346l-.025-.36l-.02-.373l-.025-.588l-.012-.41l-.013-.644l-.009-.915l-.004-.98l.001-3.313l.003-.73l.01-.914l.007-.433l.011-.418l.014-.403l.016-.388l.021-.374l.025-.36l.03-.345l.033-.333c.196-1.74.616-2.933 1.516-3.833c.9-.9 2.092-1.32 3.833-1.516l.333-.034l.346-.029l.36-.025l.373-.02l.588-.025l.41-.012l.644-.013l.915-.009ZM6.79 7.3H4.05c.13 6.24 3.25 9.99 8.72 9.99h.31v-3.57c2.01.2 3.53 1.67 4.14 3.57h2.84c-.78-2.84-2.83-4.41-4.11-5.01c1.28-.74 3.08-2.54 3.51-4.98h-2.58c-.56 1.98-2.22 3.78-3.8 3.95V7.3H10.5v6.92c-1.6-.4-3.62-2.34-3.71-6.92Z"/>
+                  </svg>
+                  <span>VK</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="socials-block main-block">
+            <div class="main-block-shine"></div>
+            <h2 data-ru="socials-header-2">PROFESSIONAL</h2>
+            <ul class="socials-list">
+              <li>
+                <a href="https://www.linkedin.com/in/breddlane/" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" fill="currentColor">
+                    <path d="M196.064.25C88.347.25.187 88.408.187 196.127v607.841c0 107.717 88.158 195.845 195.877 195.845h607.841c107.718 0 195.845-88.127 195.845-195.845V196.127C999.75 88.41 911.623.25 803.905.25H196.064zm49.266 164.948c51.648 0 83.461 33.906 84.443 78.475c0 43.585-32.797 78.444-85.442 78.444h-.969c-50.665 0-83.412-34.857-83.412-78.444c0-44.568 33.738-78.475 85.379-78.475zm445.08 208.31c99.329 0 173.79 64.922 173.79 204.436v260.449H713.247V595.406c0-61.06-21.847-102.718-76.476-102.718c-41.704 0-66.562 28.078-77.476 55.202c-3.987 9.704-4.967 23.257-4.967 36.832v253.671H403.375s1.981-411.613 0-454.233h150.984v64.324c20.06-30.95 55.942-74.977 136.051-74.977zm-521.556 10.685h150.953v454.202H168.854V384.193z"/>
+                  </svg>
+                  <span>LinkedIn</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/breddlane" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 432 416" fill="currentColor">
+                    <path d="M213.5 0q88.5 0 151 62.5T427 213q0 70-41 125.5T281 416q-14 2-14-11v-58q0-27-15-40q44-5 70.5-27t26.5-77q0-34-22-58q11-26-2-57q-18-5-58 22q-26-7-54-7t-53 7q-18-12-32.5-17.5T107 88h-6q-12 31-2 57q-22 24-22 58q0 55 27 77t70 27q-11 10-13 29q-42 18-62-18q-12-20-33-22q-2 0-4.5.5t-5 3.5t8.5 9q14 7 23 31q1 2 2 4.5t6.5 9.5t13 10.5T130 371t30-2v36q0 13-14 11q-64-22-105-77.5T0 213q0-88 62.5-150.5T213.5 0z"/>
+                  </svg>
+                  <span>GitHub</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="socials-block main-block">
+            <div class="main-block-shine"></div>
+            <h2 data-ru="socials-header-3">MEDIA</h2>
+            <ul class="socials-list">
+              <li>
+                <a href="https://x.com/breddlane" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584l-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                  </svg>
+                  <span>Twitter</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.youtube.com/@breddlane" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23 9.71a8.5 8.5 0 0 0-.91-4.13a2.92 2.92 0 0 0-1.72-1A78.36 78.36 0 0 0 12 4.27a78.45 78.45 0 0 0-8.34.3a2.87 2.87 0 0 0-1.46.74c-.9.83-1 2.25-1.1 3.45a48.29 48.29 0 0 0 0 6.48a9.55 9.55 0 0 0 .3 2a3.14 3.14 0 0 0 .71 1.36a2.86 2.86 0 0 0 1.49.78a45.18 45.18 0 0 0 6.5.33c3.5.05 6.57 0 10.2-.28a2.88 2.88 0 0 0 1.53-.78a2.49 2.49 0 0 0 .61-1a10.58 10.58 0 0 0 .52-3.4c.04-.56.04-3.94.04-4.54ZM9.74 14.85V8.66l5.92 3.11c-1.66.92-3.85 1.96-5.92 3.08Z"/>
+                  </svg>
+                  <span>YouTube</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.reddit.com/user/breddlane/" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12a12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547l-.8 3.747c1.824.07 3.48.632 4.674 1.488c.308-.309.73-.491 1.207-.491c.968 0 1.754.786 1.754 1.754c0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87c-3.874 0-7.004-2.176-7.004-4.87c0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754c.463 0 .898.196 1.207.49c1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197a.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248c.687 0 1.248-.561 1.248-1.249c0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25c0 .687.561 1.248 1.249 1.248c.688 0 1.249-.561 1.249-1.249c0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094a.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913c.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463a.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73c-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+                  </svg>
+                  <span>Reddit</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://dtf.ru/id1152710" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                    <path d="M151.7,240.3c0-10.27-8.53-18.6-19.02-18.6h-51.17v68.6h51.18c10.49,0,19.02-8.35,19.02-18.59h0v-31.4Z"/>
+                    <path d="M256,0C114.62,0,0,114.62,0,256s114.62,256,256,256,256-114.62,256-256S397.38,0,256,0ZM187.22,271.7c0,29.39-24.46,53.3-54.55,53.3H46v-138h86.68c30.08,0,54.55,23.9,54.55,53.3v31.4ZM331.92,221.7h-49.58v103.01h-35.51v-103.01h-49.58v-34.7h134.68v34.7ZM446.73,249.46v34.68h-59.89v40.57h-35.51v-137.71h114.67v34.7h-79.16v27.76h59.89Z"/>
+                  </svg>
+                  <span>DTF</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="socials-block main-block">
+            <div class="main-block-shine"></div>
+            <h2 data-ru="socials-header-4">ENTERTAINMENT</h2>
+            <ul class="socials-list">
+              <li>
+                <a href="https://letterboxd.com/breddlane/" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8.224 14.352a4.447 4.447 0 0 1-3.775 2.092C1.992 16.444 0 14.454 0 12s1.992-4.444 4.45-4.444c1.592 0 2.988.836 3.774 2.092c-.427.682-.673 1.488-.673 2.352s.246 1.67.673 2.352zM15.101 12c0-.864.247-1.67.674-2.352c-.786-1.256-2.183-2.092-3.775-2.092s-2.989.836-3.775 2.092c.427.682.674 1.488.674 2.352s-.247 1.67-.674 2.352c.786 1.256 2.183 2.092 3.775 2.092s2.989-.836 3.775-2.092A4.42 4.42 0 0 1 15.1 12zm4.45-4.444a4.447 4.447 0 0 0-3.775 2.092c.427.682.673 1.488.673 2.352s-.246 1.67-.673 2.352a4.447 4.447 0 0 0 3.775 2.092C22.008 16.444 24 14.454 24 12s-1.992-4.444-4.45-4.444z"/>
+                  </svg>
+                  <span>Letterboxd</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://backloggd.com/u/breddlane/" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" fill="currentColor">
+                    <path d="M336 0h1120q139 0 237.5 98.5T1792 336v1120q0 139-98.5 237.5T1456 1792H336q-139 0-237.5-98.5T0 1456V336Q0 197 98.5 98.5T336 0zm339 507v285h334q49 0 84.5-41.5T1129 650t-35-101t-85-42H675zM428 374v1044q0 31 21.5 53t52.5 22h507q147 0 251-103t104-248q0-144-102-246q102-102 102-246q0-145-104-248t-251-103H502q-31 0-52.5 22T428 374zm581 911H675v-285h334q49 0 84.5 41.5T1129 1142t-35 101t-85 42z"/>
+                  </svg>
+                  <span>Backloggd</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://profile.playstation.com/breddlane" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8.984 2.596v17.547l3.915 1.261V6.688c0-.69.304-1.151.794-.991c.636.18.76.814.76 1.505v5.875c2.441 1.193 4.362-.002 4.362-3.152c0-3.237-1.126-4.675-4.438-5.827c-1.307-.448-3.728-1.186-5.39-1.502zm4.656 16.241l6.296-2.275c.715-.258.826-.625.246-.818c-.586-.192-1.637-.139-2.357.123l-4.205 1.5V14.98l.24-.085s1.201-.42 2.913-.615c1.696-.18 3.785.03 5.437.661c1.848.601 2.04 1.472 1.576 2.072c-.465.6-1.622 1.036-1.622 1.036l-8.544 3.107V18.86zM1.807 18.6c-1.9-.545-2.214-1.668-1.352-2.32c.801-.586 2.16-1.052 2.16-1.052l5.615-2.013v2.313L4.205 17c-.705.271-.825.632-.239.826c.586.195 1.637.15 2.343-.12L8.247 17v2.074c-.12.03-.256.044-.39.073c-1.939.331-3.996.196-6.038-.479z"/>
+                  </svg>
+                  <span>PlayStation</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://psnprofiles.com/breddlane" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                    <path d="M166,256v-90c-60,0-60,30,0,90Z"/>
+                    <path d="M346,166v90c60-60,60-90,0-90Z"/>
+                    <path d="M256,0C114.62,0,0,114.62,0,256s114.62,256,256,256,256-114.62,256-256S397.38,0,256,0ZM391,391v45H121v-45h90v-45C61,196,46,121,166,121v-45h180v45c120,0,105,75-45,225v45h90Z"/>
+                  </svg>
+                  <span>PSNProfiles</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://steamcommunity.com/id/breddlane/" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658a3.387 3.387 0 0 1 1.912-.59c.063 0 .125.004.188.006l2.861-4.142V8.91a4.528 4.528 0 0 1 4.524-4.524c2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159a3.392 3.392 0 0 1-3.39 3.396a3.412 3.412 0 0 1-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25a2.551 2.551 0 0 0 3.337-3.324a2.547 2.547 0 0 0-3.255-1.413l1.523.63a1.878 1.878 0 0 1-1.445 3.467H7.54zm11.415-9.303a3.019 3.019 0 0 0-3.015-3.015a3.015 3.015 0 1 0 3.015 3.015zm-5.273-.005a2.264 2.264 0 1 1 4.531 0a2.267 2.267 0 0 1-2.266 2.265a2.264 2.264 0 0 1-2.265-2.265z"/>
+                  </svg>
+                  <span>Steam</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://horizon.meta.com/profile/533550003185244/?hwsh=bP0oyn32V5" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6.915 4.03c-1.968 0-3.683 1.28-4.871 3.113C.704 9.208 0 11.883 0 14.449c0 .706.07 1.369.21 1.973a6.624 6.624 0 0 0 .265.86a5.297 5.297 0 0 0 .371.761c.696 1.159 1.818 1.927 3.593 1.927c1.497 0 2.633-.671 3.965-2.444c.76-1.012 1.144-1.626 2.663-4.32l.756-1.339l.186-.325c.061.1.121.196.183.3l2.152 3.595c.724 1.21 1.665 2.556 2.47 3.314c1.046.987 1.992 1.22 3.06 1.22c1.075 0 1.876-.355 2.455-.843a3.743 3.743 0 0 0 .81-.973c.542-.939.861-2.127.861-3.745c0-2.72-.681-5.357-2.084-7.45c-1.282-1.912-2.957-2.93-4.716-2.93c-1.047 0-2.088.467-3.053 1.308c-.652.57-1.257 1.29-1.82 2.05c-.69-.875-1.335-1.547-1.958-2.056c-1.182-.966-2.315-1.303-3.454-1.303zm10.16 2.053c1.147 0 2.188.758 2.992 1.999c1.132 1.748 1.647 4.195 1.647 6.4c0 1.548-.368 2.9-1.839 2.9c-.58 0-1.027-.23-1.664-1.004c-.496-.601-1.343-1.878-2.832-4.358l-.617-1.028a44.908 44.908 0 0 0-1.255-1.98c.07-.109.141-.224.211-.327c1.12-1.667 2.118-2.602 3.358-2.602zm-10.201.553c1.265 0 2.058.791 2.675 1.446c.307.327.737.871 1.234 1.579l-1.02 1.566c-.757 1.163-1.882 3.017-2.837 4.338c-1.191 1.649-1.81 1.817-2.486 1.817c-.524 0-1.038-.237-1.383-.794c-.263-.426-.464-1.13-.464-2.046c0-2.221.63-4.535 1.66-6.088c.454-.687.964-1.226 1.533-1.533a2.264 2.264 0 0 1 1.088-.285z"/>
+                  </svg>
+                  <span>Meta</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="custom-scrollbar">
+        <div class="custom-thumb"></div>
+      </div>
+    </section>
+  </div>
+  <script src="/script.js"></script>
+</body>
+</html>
