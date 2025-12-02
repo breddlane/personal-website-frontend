@@ -13,6 +13,15 @@ localStorage.setItem('uid', uid);
 const ua = navigator.userAgent;
 const userLang = navigator.language;
 
+function detectOS() {
+  if (/Android/i.test(ua)) return 'Android';
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'iOS';
+  if (/Win/i.test(ua)) return 'Windows';
+  if (/Mac/i.test(ua)) return 'macOS';
+  if (/Linux/i.test(ua)) return 'Linux';
+  return navigator.userAgentData?.platform || 'Unknown';
+}
+
 function detectBrowser() {
   if (/Edg\//.test(ua)) return 'Edge';
   if (/OPR\//.test(ua)) return /GX\//.test(ua) ? 'Opera GX' : 'Opera';
@@ -21,15 +30,6 @@ function detectBrowser() {
   if (/Safari\//.test(ua) && !/Chrome\//.test(ua)) return 'Safari';
   if (/Firefox\//.test(ua)) return 'Firefox';
   return navigator.userAgentData?.brands?.[0]?.brand || 'Unknown';
-}
-
-function detectOS() {
-  if (/Android/i.test(ua)) return 'Android';
-  if (/iPhone|iPad|iPod/i.test(ua)) return 'iOS';
-  if (/Win/i.test(ua)) return 'Windows';
-  if (/Mac/i.test(ua)) return 'macOS';
-  if (/Linux/i.test(ua)) return 'Linux';
-  return navigator.userAgentData?.platform || 'Unknown';
 }
 
 function isTouchDevice() {
@@ -210,13 +210,13 @@ function routeFromPath() {
 }
 
 (async function init() {
-  await loadFile('/videos/animation.mp4');
+  await loadFile('/videos/background.mp4');
 
   const elapsed = Date.now() - startTime;
   const remaining = Math.max(minLoadTime - elapsed, 0);
 
   setTimeout(async () => {
-    const videoData = loadedFileURLs['/videos/animation.mp4'];
+    const videoData = loadedFileURLs['/videos/background.mp4'];
     if (videoData) {
       const video = document.createElement('video');
       video.src = videoData;
@@ -542,13 +542,16 @@ let isWaitingForResponse = false;
 async function sendMessage() {
   if (!firstChatOpen || chatAnimating || isWaitingForResponse) return;
   const message = chatInput.value.trim();
+
   if (!message) return;
 
+  /*
   if (message === 're') {
     appendMessage('user', 'Hey bot');
     appendMessage('bot', 'Yeah. I\'m here');
     return;
   }
+  */
 
   appendMessage('user', message);
   chatInput.value = '';
@@ -582,7 +585,6 @@ async function sendMessage() {
 
   } catch (err) {
     appendMessage('bot', t('ОШИБКА: Не удалось подключиться к серверу', 'ERROR: Could not reach server'));
-    console.error(err);
   } finally {
     isWaitingForResponse = false;
     typingIndicator.remove();
@@ -1109,7 +1111,7 @@ function updateProjectTextWidths() {
 }
 
 const portfolioIcons = {
-  'complete-website': `
+  fullstack: `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="currentColor">
       <path d="M29.4,84c4.82,8.34,12.49,14.66,21.6,17.8-3-5.55-5.25-11.55-7-17.8h-14.6Z"/>
       <path d="M41.5,64c0-3.4.3-6.7.7-10h-16.9c-.8,3.2-1.3,6.55-1.3,10s.5,6.8,1.3,10h16.9c-.4-3.3-.7-6.6-.7-10Z"/>
@@ -1165,10 +1167,10 @@ document.querySelectorAll('.projects-list a').forEach(link => {
 
 function updateProjectDescriptions() {
   document.querySelectorAll('.projects-list a .icon').forEach(icon => {
-    if (icon.classList.contains('complete-website')) {
+    if (icon.classList.contains('fullstack')) {
       icon.dataset.info = t(
-        'ПОЛНОЦЕННЫЙ САЙТ: Включает UI/UX дизайн, фронтенд и/или бэкенд.',
-        'COMPLETE WEBSITE: Includes UI/UX design, frontend, and/or backend.'
+        'FULLSTACK: Включает frontend и backend.',
+        'FULLSTACK: Includes frontend and backend.'
       );
     } else if (icon.classList.contains('game-mod')) {
       icon.dataset.info = t(
@@ -1191,9 +1193,6 @@ function updateProjectDescriptions() {
         'COMMUNITY PROJECT: Created to support or provide value to a community.'
       );
     }
-
-    const maxWidth = (currentLang === 'ru') ? '300px' : '250px';
-    icon.style.setProperty('--info-max-width', maxWidth);
   });
 }
 
@@ -3273,11 +3272,11 @@ const translations = {
 
   'about-header': 'ОБО МНЕ',
   'about-text-1': 'Привет! Я Мухаммед',
-  'about-text-2': 'Под ником Bredd Lane',
+  'about-text-2': 'Также под ником Bredd Lane',
   'about-text-3': 'Из Азербайджана',
   'about-text-4': `${age} лет`,
-  'about-text-5': 'Я люблю сюжетные игры и фильмы, а также экспериментировать с креативными идеями. Развиваю свои навыки в веб-разработке, UI/UX и графическом дизайне, изучая новые подходы и техники.',
-  'about-text-6': 'Если вас интересует качественный кастомный сайт с современным дизайном, свяжитесь со мной.',
+  'about-text-5': 'Я люблю сюжетные игры и фильмы, а также экспериментировать с креативными идеями. Развиваю свои навыки в веб-разработке, UI/UX и графическом дизайне, изучая новые техники и подходы.',
+  'about-text-6': 'Если вас интересует качественный кастомный сайт с современным дизайном &mdash; обращайтесь.',
 
   'education-header': 'ОБРАЗОВАНИЕ',
   'education-text-1': 'Академия государственного управления при президенте Азербайджанской Республики',
@@ -3312,8 +3311,8 @@ const translations = {
   'blasthack-link-t': 'Тема на BlastHack',
   'blasthack-link-d': 'Подробная тема на форуме, включающая: описание функций, требования, инструкции по установке, список изменений с историей версий и обсуждение сообщества с вопросами и ответами.',
 
-  'personal-website-d': '<b>Описание:</b> Кастомное одностраничное приложение, разработанное на ванильном JavaScript, с реализацией роутинга, управления состоянием, форм и валидации. Полностью адаптивное с уникальным UI и UX для десктопа и тач-устройств. Включает современный дизайн, плавные анимации, галерею изображений и просмотр кода. Интегрирован ИИ-чат на базе GPT с сохранением контекста. Бэкенд на Node.js с использованием SQLite для хранения необходимых данных, включая дневные лимиты GPT-токенов. Идентификация пользователей и управление лимитами без классической авторизации с использованием UID и отпечатков устройств. Обеспечивает функции безопасности и защиты использования.',
-  'personal-website-date-d': '<b>Разработка:</b> 30 Авг 2025 &mdash; 1 Дек 2025',
+  'personal-website-d': '<b>Описание:</b> Кастомное одностраничное приложение, разработанное на ванильном JavaScript, с реализацией роутинга, управления состоянием, форм и валидации. Полностью адаптивное с кастомным UI и UX для десктопа и тач-устройств. Включает современный дизайн, плавные анимации, галерею изображений и просмотр кода. Интегрирован ИИ-чат на базе GPT с сохранением контекста. Backend на Node.js с использованием SQLite для хранения необходимых данных, включая дневные лимиты GPT-токенов. Идентификация пользователей и управление лимитами без классической авторизации с использованием UID и отпечатков устройств. Обеспечивает функции безопасности и защиты использования.',
+  'personal-website-date-d': '<b>Разработка:</b> 30 Авг 2025 &mdash; 2 Дек 2025',
   'personal-website-date-s': '<b>Поддержка:</b> В процессе',
 
   'custom-interface-d': '<b>Описание:</b> Улучшает интерфейс игры с настраиваемыми элементами HUD и виджетами, включает меню настроек в стиле Windows 10 и встроенное автообновление, всё на базе ImGui. Одно обновление было выпущено после релиза.',
