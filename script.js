@@ -1021,6 +1021,8 @@ function getLinksInSection(section) {
   return out;
 }
 
+let projectsResetTimeout;
+
 function animateProjectList(section) {
   const links = getLinksInSection(section);
   if (!links.length) return;
