@@ -547,8 +547,8 @@ async function sendMessage() {
 
   /*
   if (message === 're') {
-    appendMessage('user', 'Hey bot');
-    appendMessage('bot', 'Yeah. I\'m here');
+    appendMessage('user', 'Hi, bot.');
+    appendMessage('bot', 'Hi, user.');
     return;
   }
   */
