@@ -63,7 +63,7 @@ fetch('/track-user', {
     browser: detectBrowser(),
     deviceType: isMobileDevice() ? 'Mobile' : 'Desktop',
     resolution: `${window.screen.width}x${window.screen.height}`,
-    referrer: document.referrer && document.referrer.length > 0 ? document.referrer.slice(0, 50) : 'Direct'
+    referrer: document.referrer && document.referrer.length > 0 ? document.referrer.slice(0, 100) : 'Direct'
   })
 });
 
