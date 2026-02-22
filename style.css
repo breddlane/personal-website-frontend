@@ -25,21 +25,20 @@
 
 html, body {
   height: 100%;
-  margin: 0;
-  font-family: 'Century Gothic', Arial, sans-serif;
-  color: white;
-  background-color: var(--body-bg);
   overflow: hidden;
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
-html::-webkit-scrollbar, 
+html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
 }
 
-body, body * {
+body {
+  margin: 0;
+  font-family: 'Century Gothic', Arial, sans-serif;
+  color: white;
+  background-color: var(--body-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -187,6 +186,29 @@ button:focus-visible {
     transform: translate(-50%, -50%) scale(1.1);
     opacity: 1;
   }
+}
+
+#loading-progress {
+  position: fixed;
+  bottom: 8vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  height: 10px;
+  background: var(--block-bg);
+  border-radius: 20px;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#loading-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-active));
+  border-radius: 20px;
+  transition: width 0.2s cubic-bezier(0.2, 0.6, 0.3, 1);
 }
 
 #navbar.fully-loaded #chat-button {
@@ -632,7 +654,6 @@ button:focus-visible {
   pointer-events: none;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 #chat-messages.show {
@@ -894,7 +915,6 @@ button:focus-visible {
   position: relative;
   overflow: hidden;
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .section-inner::-webkit-scrollbar {
@@ -1097,13 +1117,13 @@ button:focus-visible {
   background: var(--primary-color);
 }
 
-#portfolio {
+#projects {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#portfolio-wrapper {
+#projects-wrapper {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -1282,7 +1302,6 @@ button:focus-visible {
   position: relative;
   overflow: hidden;
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 #overlay-inner::-webkit-scrollbar {
@@ -1418,7 +1437,6 @@ button:focus-visible {
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .images::-webkit-scrollbar {
@@ -1595,7 +1613,6 @@ button:focus-visible {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 #viewer-code::-webkit-scrollbar {
@@ -1774,7 +1791,6 @@ button:focus-visible {
   background: black;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 #viewer-thumbnails::-webkit-scrollbar {
@@ -1962,6 +1978,7 @@ button:focus-visible {
 .link-card-icon {
   width: 40px;
   height: 40px;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 1));
 }
 
 .link-card-title {

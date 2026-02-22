@@ -52,21 +52,6 @@ const fingerprintData = {
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown'
 };
 
-fetch('/track-user', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    uid,
-    ...fingerprintData,
-
-    language: userLang || 'Unknown',
-    browser: detectBrowser(),
-    deviceType: isMobileDevice() ? 'Mobile' : 'Desktop',
-    resolution: `${window.screen.width}x${window.screen.height}`,
-    referrer: document.referrer && document.referrer.length > 0 ? document.referrer.slice(0, 100) : 'Direct'
-  })
-});
-
 const loadedFiles = {};
 const loadedFileURLs = {};
 
@@ -120,7 +105,7 @@ async function loadFile(src, maxAttempts = Infinity) {
     } catch (err) {
       attempts++;
       if (attempts >= maxAttempts) {
-        showNotification(t(`Не удалось загрузить файл: ${fileName}`, `Failed to load file: ${fileName}`), 5000);
+        showNotification(t(`❌ Не удалось загрузить файл: ${fileName}`, `❌ Failed to load file: ${fileName}`), 5000);
         throw err;
       }
       await new Promise(r => setTimeout(r, 1000));
@@ -135,19 +120,19 @@ function pathToSection(path) {
   if (clean === '/about') return { section: 'about' };
   if (clean === '/socials') return { section: 'socials' };
 
-  if (clean.startsWith('/portfolio')) {
+  if (clean.startsWith('/projects')) {
     const parts = clean.split('/');
-    if (parts.length === 2) return { section: 'portfolio' };
+    if (parts.length === 2) return { section: 'projects' };
     if (parts.length === 3) {
       const project = parts[2];
       const validProjects = Array.from(document.querySelectorAll('.projects-list a')).map(a => a.dataset.section);
       if (validProjects.includes(project)) {
-        return { section: 'portfolio', project };
+        return { section: 'projects', project };
       } else {
-        return { section: 'portfolio' };
+        return { section: 'projects' };
       }
     }
-    return { section: 'portfolio' };
+    return { section: 'projects' };
   }
 
   if (clean.startsWith('/socials/')) return { section: 'socials' };
@@ -165,7 +150,7 @@ function openSectionById(id, push, skipInitialCheck = false) {
   }
 
   const anyActive = Array.from(sections).some(section => section.classList.contains('active'));
-  if (!anyActive && id === 'portfolio' && !skipInitialCheck) {
+  if (!anyActive && id === 'projects' && !skipInitialCheck) {
     closeNavLinks();
     closeOverlay();
     return;
@@ -188,7 +173,7 @@ function openSectionById(id, push, skipInitialCheck = false) {
   onSectionChange(newSection);
   animateSectionElements(newSection);
 
-  if (push && !(id === 'portfolio' && overlayIsActive)) history.pushState({ section: id }, '', id === 'about' ? '/about' : '/' + id);
+  if (push && !(id === 'projects' && overlayIsActive)) history.pushState({ section: id }, '', id === 'about' ? '/about' : '/' + id);
 }
 
 function routeFromPath() {
@@ -196,20 +181,67 @@ function routeFromPath() {
 
   let newPath = window.location.pathname;
   if (section === 'about' && newPath !== '/about') newPath = '/about';
-  if (section === 'portfolio' && project && newPath !== `/portfolio/${project}`) newPath = `/portfolio/${project}`;
-  if (section === 'portfolio' && !project && newPath !== '/portfolio') newPath = '/portfolio';
+  if (section === 'projects' && project && newPath !== `/projects/${project}`) newPath = `/projects/${project}`;
+  if (section === 'projects' && !project && newPath !== '/projects') newPath = '/projects';
   if (section === 'socials' && newPath !== '/socials') newPath = '/socials';
   history.replaceState({ section }, '', newPath);
 
   openSectionById(section, false, true);
 
-  if (section === 'portfolio' && project) {
+  if (section === 'projects' && project) {
     const projectLink = document.querySelector(`.projects-list a[data-section='${project}']`);
     if (projectLink) showOverlay(projectLink);
   }
 }
 
+let chatButtonHovered = false;
+
+const loadingProgress = document.getElementById('loading-progress');
+const loadingProgressBar = document.getElementById('loading-progress-bar');
+
+let loadingFinished = false;
+let progressValue = 0;
+
+const FAST_PHASE_END = 40;
+const SLOW_PHASE_END = 80;
+const FAST_SPEED = 1.2;
+const SLOW_SPEED = 0.25;
+const FINISH_SPEED = 2;
+
+function animateLoadingProgressBar() {
+  if (loadingFinished) return;
+
+  if (progressValue < FAST_PHASE_END) {
+    progressValue += FAST_SPEED;
+  } else if (progressValue < SLOW_PHASE_END) {
+    progressValue += SLOW_SPEED;
+  }
+
+  const visual = Math.min(progressValue, SLOW_PHASE_END);
+  loadingProgressBar.style.width = visual + '%';
+
+  if (progressValue < SLOW_PHASE_END) {
+    requestAnimationFrame(animateLoadingProgressBar);
+  }
+}
+
+function finishProgress() {
+  return new Promise(resolve => {
+    const interval = setInterval(() => {
+      progressValue += FINISH_SPEED;
+      loadingProgressBar.style.width = Math.min(progressValue, 100) + '%';
+
+      if (progressValue >= 100) {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 16);
+  });
+}
+
 (async function init() {
+  animateLoadingProgressBar();
+
   await loadFile('/videos/background.mp4');
 
   const elapsed = Date.now() - startTime;
@@ -237,20 +269,59 @@ function routeFromPath() {
       video.play().catch(() => {});
     }
 
-    navbar.classList.add('loaded');
+    loadingFinished = true;
+    await finishProgress();
+    await new Promise(r => setTimeout(r, 200));
+
+    loadingProgress.style.opacity = '0';
 
     setTimeout(() => {
-      routeFromPath();
+      navbar.classList.add('loaded');
 
-      navbar.classList.add('fully-loaded');
-      languageSpanWidths();
-      chatButtonTooltip.classList.add('show-hint');
-    }, 1000);
+      setTimeout(() => {
+        loadingProgress.remove();
+      }, 200);
 
-    setTimeout(() => {
-      chatButtonTooltip.classList.remove('show-hint');
-    }, 5000);
+      setTimeout(() => {
+        routeFromPath();
+        navbar.classList.add('fully-loaded');
+        languageSpanWidths();
 
+        const firstVisit = localStorage.getItem('dataConsentShown') !== 'true';
+
+        if (firstVisit) {
+          showNotification(t('⚠️ Сайт собирает технические данные и активность в чате для корректной работы', '⚠️ The site collects technical data and chat activity for proper functioning'), 8000);
+          localStorage.setItem('dataConsentShown', 'true');
+        }
+
+        fetch('/track-user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            uid,
+            ...fingerprintData,
+
+            language: userLang || 'Unknown',
+            browser: detectBrowser(),
+            deviceType: isMobileDevice() ? 'Mobile' : 'Desktop',
+            resolution: `${window.screen.width}x${window.screen.height}`,
+            referrer: document.referrer && document.referrer.length > 0 ? document.referrer.slice(0, 100) : 'Direct'
+          })
+        });
+
+        setTimeout(() => {
+          if (!chatButtonHovered && localStorage.getItem('chatOpened') !== 'true') {
+            chatButtonTooltip.classList.add('show-hint');
+          }
+
+          setTimeout(() => {
+            if (chatButtonTooltip.classList.contains('show-hint')) {
+              chatButtonTooltip.classList.remove('show-hint');
+            }
+          }, 5000);
+        }, firstVisit ? 8400 : 700);
+      }, 1000);
+    }, 300);
   }, remaining);
 })();
 
@@ -336,7 +407,7 @@ if (!notificationContainer) {
   document.body.appendChild(notificationContainer);
 }
 
-const maxVisible = 2;
+const maxVisible = 3;
 const queue = [];
 let activeNotifications = [];
 
@@ -401,6 +472,8 @@ let chatClosing = false;
 
 chatButton.addEventListener('click', () => {
   if (chatClosing) return;
+
+  localStorage.setItem('chatOpened', 'true');
   
   clearTimeout(tShowContent);
   clearTimeout(tShowMessages);
@@ -410,7 +483,9 @@ chatButton.addEventListener('click', () => {
   setTimeout(() => {
     if (navbar.classList.contains('fully-loaded')) {
       pauseVideo();
-      chatButtonTooltip.classList.remove('show-hint');
+      if (chatButtonTooltip.classList.contains('show-hint')) {
+        chatButtonTooltip.classList.remove('show-hint');
+      }
       closeNavLinks();
       if (isMobileDevice()) {
         chatWindow.classList.add('mobile');
@@ -441,6 +516,15 @@ chatButton.addEventListener('click', () => {
       }, 700);
     }
   }, isTouchDevice() ? remainingHighlightDelay : 0);
+});
+
+chatButton.addEventListener('mouseenter', () => {
+  if (!navbar.classList.contains('fully-loaded')) return;
+
+  chatButtonHovered = true;
+  if (chatButtonTooltip.classList.contains('show-hint')) {
+    chatButtonTooltip.classList.remove('show-hint');
+  }
 });
 
 function closeChat() {
@@ -510,7 +594,7 @@ function appendMessage(sender, text) {
   scrollChatToBottom();
 
   if (sender === 'bot' && !chatWindow.classList.contains('open')) {
-    showNotification(t('Новое сообщение от ИИ', 'New message from AI'), 5000);
+    showNotification(t('🤖 Новое сообщение от ИИ', '🤖 New message from AI'), 5000);
   }
 }
 
@@ -1046,7 +1130,7 @@ function animateProjectList(section) {
   });
 
   if (isTouchDevice()) {
-    initTouchPortfolioIcons(section);
+    initTouchProjectsIcons(section);
   } else {
     links.forEach(link => {
       if (link.dataset._projectHandlersAttached) return;
@@ -1112,7 +1196,7 @@ function updateProjectTextWidths() {
   });
 }
 
-const portfolioIcons = {
+const projectsIcons = {
   fullstack: `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="currentColor">
       <path d="M29.4,84c4.82,8.34,12.49,14.66,21.6,17.8-3-5.55-5.25-11.55-7-17.8h-14.6Z"/>
@@ -1137,14 +1221,10 @@ const portfolioIcons = {
       <circle cx="87.67" cy="64.83" r="3.96"/>
     </svg>
   `,
-  'vector-design': `
+  'logo-design': `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="currentColor">
-      <rect x="58.2" y="75.6" width="11.6" height="11.6"/>
-      <path d="M30.77,85.52c-.13,0-.25,0-.38.02-1.18.1-2.27.66-3.04,1.57-1.59,1.88-1.36,4.7.53,6.29,1.88,1.59,4.7,1.36,6.29-.53.68-.8,1.05-1.82,1.05-2.87,0-2.47-1.99-4.47-4.46-4.47Z"/>
-      <rect x="26.3" y="33.55" width="11.6" height="11.6"/>
-      <path d="M89.6,0h-51.2C17.19,0,0,17.19,0,38.4v51.2c0,21.21,17.19,38.4,38.4,38.4h51.2c21.21,0,38.4-17.19,38.4-38.4v-51.2C128,17.19,110.81,0,89.6,0ZM107.5,50.95h-8.78c-.54,9.13-3.67,17.01-9.12,22.93-2.66,2.89-5.86,5.25-9.41,6.95l8.86,2.96c.11-.15.23-.29.35-.43,1.76-2.08,4.27-3.38,6.98-3.6,5.65-.47,10.61,3.72,11.09,9.37.47,5.65-3.72,10.61-9.37,11.09-.29.02-.59.04-.88.04-5.33-.01-9.76-4.1-10.21-9.41-.04-.54-.05-1.08,0-1.62l-11.4-3.8v7.58h-23.2v-7.58l-11.4,3.8c.42,5.62-3.76,10.52-9.38,10.99-.29.02-.58.04-.87.04-2.42,0-4.76-.86-6.61-2.42-4.33-3.66-4.87-10.14-1.21-14.47h0c3.66-4.33,10.14-4.87,14.46-1.21.58.49,1.1,1.04,1.56,1.65l8.86-2.95c-3.55-1.7-6.74-4.06-9.4-6.95-5.46-5.92-8.58-13.8-9.12-22.93h-8.79v-23.2h23.2v23.2h-8.6c.85,12.54,7.21,21.68,17.3,25.53v-6.68h23.2v6.68c10.09-3.85,16.46-12.99,17.3-25.53h-8.6v-23.2h23.2v23.2Z"/>
-      <path d="M97.23,94.45c2.47,0,4.47-1.99,4.47-4.46,0-2.47-1.99-4.47-4.46-4.47-.13,0-.25,0-.38.02-1.18.1-2.27.66-3.04,1.57h0c-.68.8-1.05,1.82-1.05,2.88,0,2.47,1.99,4.47,4.46,4.47Z"/>
-      <rect x="90.1" y="33.55" width="11.6" height="11.6"/>
+      <path d="M60.76,66.28c-3.82-2.09-10.44,8.8-11.89,11.89-1.54,3.26-6.32,15.32-2.48,17.03,3.83,1.72,10.62-10.4,11.89-13.22l.12-.26c1.44-3.17,6.08-13.41,2.37-15.44Z"/>
+      <path d="M89.6,0h-51.2C17.19,0,0,17.19,0,38.4v51.2c0,21.21,17.19,38.4,38.4,38.4h51.2c21.21,0,38.4-17.19,38.4-38.4v-51.2C128,17.19,110.81,0,89.6,0ZM56,25.94h3.46v-3.46c0-1.91,1.55-3.46,3.46-3.46s3.46,1.55,3.46,3.46v3.46h3.46c1.91,0,3.46,1.55,3.46,3.46s-1.55,3.46-3.46,3.46h-3.46v3.46c0,1.91-1.55,3.46-3.46,3.46s-3.46-1.55-3.46-3.46v-3.46h-3.46c-1.91,0-3.46-1.55-3.46-3.46s1.55-3.46,3.46-3.46ZM28.42,50.65l-12.99-3.4c-1.9-.51-1.9-1.29,0-1.82l12.99-3.42c2.08-.67,3.7-2.3,4.36-4.37l3.4-13.03c.51-1.94,1.29-1.94,1.8,0l3.41,13.03c.66,2.08,2.29,3.71,4.36,4.37l13,3.42c1.89.5,1.89,1.3,0,1.82l-13,3.4c-2.07.67-3.7,2.3-4.36,4.38l-.7,2.68c-2.73,2.27-3.8,3.76-5.51,6.51l-2.4-9.19c-.67-2.08-2.29-3.7-4.36-4.38ZM85.51,91.21c-1.22,2.41-3.35,5.07-5.75,7.5-2.43,2.47-5.26,4.84-8.02,6.67-2.68,1.77-5.56,3.23-8.04,3.51-2.33.27-4.28-.12-5.86-1.02-1.57-.89-2.59-2.16-3.25-3.38-.19-.36-.36-.71-.49-1.05-1.02.67-2.25,1.44-3.6,2.14-1.82.95-3.95,1.86-6.12,2.28-2.16.42-4.58.42-6.76-.75-4.77-2.55-6.22-8.35-6.19-13.75.1-5.7,1.47-11.3,4.02-16.4,6.23-12.07,13.01-18.81,19.44-21.01,3.27-1.12,6.44-1.05,9.26.11,1.64.68,3.12,1.7,4.35,2.98,2.21-4.35,4.22-8.8,6.01-13.33,1.14-2.88,2.11-5.59,2.8-7.85.71-2.34,1.03-3.96,1.03-4.74v-2.36l2.36.06c1.95.09,3.8.86,5.24,2.18,1.78,1.64,2.99,4.16,2.99,7.71,0,2.31-.94,5.61-2.16,9-1.26,3.5-2.93,7.46-4.63,11.22-3.39,7.53-6.95,14.42-7.62,15.69l-.49.9c-1.75,3.13-3.35,6.35-4.78,9.64-.98,2.32-1.73,4.49-1.99,6.14-.09.49-.12.99-.09,1.49.3-.15.73-.42,1.28-.86,1.34-1.08,2.86-2.72,4.54-4.53l.14-.15c1.65-1.78,3.49-3.74,5.19-5.03.85-.64,1.87-1.26,2.97-1.51,1.31-.35,2.71-.04,3.74.83,1.26,1.05,1.68,2.5,1.62,3.87-.06,1.29-.53,2.59-1.14,3.79ZM113.16,77.73l-7.71,2.02c-1.23.4-2.2,1.36-2.59,2.59l-2.02,7.73c-.29,1.13-.76,1.13-1.06,0l-2.02-7.73c-.39-1.23-1.36-2.2-2.59-2.59l-7.71-2.02c-1.13-.3-1.13-.77,0-1.08l7.71-2.03c1.23-.39,2.2-1.36,2.59-2.59l2.02-7.73c.3-1.15.77-1.15,1.07,0l2.02,7.73c.4,1.23,1.36,2.19,2.59,2.59l7.71,2.03h0c1.12.3,1.12.77,0,1.08Z"/>
     </svg>
   `,
   personal: `
@@ -1162,8 +1242,8 @@ const portfolioIcons = {
 document.querySelectorAll('.projects-list a').forEach(link => {
   const icons = link.querySelectorAll('.icon');
   icons.forEach(icon => {
-    const iconType = [...icon.classList].find(c => portfolioIcons[c]);
-    if (iconType) icon.innerHTML = portfolioIcons[iconType];
+    const iconType = [...icon.classList].find(c => projectsIcons[c]);
+    if (iconType) icon.innerHTML = projectsIcons[iconType];
   });
 });
 
@@ -1171,18 +1251,18 @@ function updateProjectDescriptions() {
   document.querySelectorAll('.projects-list a .icon').forEach(icon => {
     if (icon.classList.contains('fullstack')) {
       icon.dataset.info = t(
-        'FULLSTACK: Включает frontend и backend.',
-        'FULLSTACK: Includes frontend and backend.'
+        'FULL-STACK: Кастомный вебсайт с front-end и back-end.',
+        'FULL-STACK: Custom website with front-end and back-end.'
       );
     } else if (icon.classList.contains('game-mod')) {
       icon.dataset.info = t(
         'ИГРОВАЯ МОДИФИКАЦИЯ: Добавляет новые функции или контент в существующую игру.',
         'GAME MODIFICATION: Adds new features or content to an existing game.'
       );
-    } else if (icon.classList.contains('vector-design')) {
+    } else if (icon.classList.contains('logo-design')) {
       icon.dataset.info = t(
-        'ВЕКТОРНЫЙ ДИЗАЙН: Масштабируемая графика, созданная в векторных редакторах.',
-        'VECTOR DESIGN: Scalable graphics made in vector editors.'
+        'ДИЗАЙН ЛОГОТИПА: Отражение идентичности бренда.',
+        'LOGO DESIGN: Representation of brand identity.'
       );
     } else if (icon.classList.contains('personal')) {
       icon.dataset.info = t(
@@ -1198,7 +1278,7 @@ function updateProjectDescriptions() {
   });
 }
 
-function initTouchPortfolioIcons(section) {
+function initTouchProjectsIcons(section) {
   const links = Array.from(section.querySelectorAll('a'));
   const icons = section.querySelectorAll('.icon');
   const hideTimeouts = new Map();
@@ -1401,9 +1481,9 @@ copyLinks.forEach(link => {
     const spanText = link.querySelector('span').innerHTML.trim();
 
     if (spanText === 'Discord') {
-      message = t(`Discord ID скопирован: ${content}`, `Copied Discord ID: ${content}`);
+      message = t(`📋 Discord ID скопирован: ${content}`, `📋 Copied Discord ID: ${content}`);
     } else if (spanText === 'Email') {
-      message = t(`Email скопирован: ${content}`, `Copied Email: ${content}`);
+      message = t(`📋 Email скопирован: ${content}`, `📋 Copied Email: ${content}`);
     }
 
     navigator.clipboard.writeText(content).then(() => {
@@ -1412,10 +1492,10 @@ copyLinks.forEach(link => {
   });
 });
 
-function portfolioSectionState(state) {
-  const portfolioSection = document.getElementById('portfolio');
-  state ? animateProjectList(portfolioSection) : hideCustomScrollbar(portfolioSection);
-  portfolioSection.classList.toggle('active', state);
+function projectsSectionState(state) {
+  const projectsSection = document.getElementById('projects');
+  state ? animateProjectList(projectsSection) : hideCustomScrollbar(projectsSection);
+  projectsSection.classList.toggle('active', state);
 }
 
 const overlay = document.getElementById('overlay');
@@ -1436,14 +1516,14 @@ function updateOverlayTitle() {
 let overlayTimeouts = [];
 
 function showOverlay(link) {
-  portfolioSectionState(false);
+  projectsSectionState(false);
   overlay.classList.add('active');
 
   projectOpened = link.dataset.section; 
 
   updateOverlayTitle();
 
-  history.pushState({ section: 'portfolio', project: projectOpened }, '', `/portfolio/${projectOpened}`);
+  history.pushState({ section: 'projects', project: projectOpened }, '', `/projects/${projectOpened}`);
 
   document.querySelectorAll('#overlay-content .project-content').forEach(pc => {
     pc.style.display = 'none';
@@ -1453,10 +1533,10 @@ function showOverlay(link) {
     projectContent.style.display = 'block';
 
     if (projectOpened === 'custom-interface') {
-      createProjectImages('Custom Interface', 'custominterface', 'png', 21, 'images-custom-interface', 1920/1080, false);
+      createProjectImages('Custom Interface', 'custominterface', 'jpg', 21, 'images-custom-interface', 1920/1080, false);
       initYouTubePlayer();
     } else if (projectOpened === 'vehicletools') {
-      createProjectImages('VehicleTools', 'vehicletools', 'png', 11, 'images-vehicletools', 1920/1080, false);
+      createProjectImages('VehicleTools', 'vehicletools', 'jpg', 11, 'images-vehicletools', 1920/1080, false);
     } else if (projectOpened === 'personal-logo') {
       createProjectImages('Personal logo', 'personallogo', 'svg', 1, 'images-personal-logo', 2880/2400, true);
     }
@@ -1516,8 +1596,8 @@ function closeOverlay() {
   overlayContent.style.opacity = '0';
   overlayBackButton.style.opacity = '0';
 
-  history.replaceState({ section: 'portfolio' }, '', '/portfolio');
-  portfolioSectionState(true);
+  history.replaceState({ section: 'projects' }, '', '/projects');
+  projectsSectionState(true);
 }
 
 const viewer = document.getElementById('viewer-overlay');
@@ -1778,11 +1858,11 @@ function onSectionChange(newSection) {
   overlayTimeouts.forEach(clearTimeout);
   overlayTimeouts = [];
 
-  if (newSection.querySelector('#portfolio-wrapper') && overlayIsActive) {
-    portfolioSectionState(false);
+  if (newSection.querySelector('#projects-wrapper') && overlayIsActive) {
+    projectsSectionState(false);
     overlay.classList.add('active');
 
-    history.pushState({ section: 'portfolio', project: projectOpened }, '', `/portfolio/${projectOpened}`);
+    history.pushState({ section: 'projects', project: projectOpened }, '', `/projects/${projectOpened}`);
 
     overlayTimeouts.push(setTimeout(() => {
       overlayBackButton.style.opacity = '1';
@@ -1938,9 +2018,9 @@ overlayButtons.forEach(button => {
       if (loadedFiles[originalHref]) {
         if (!isTouchDevice() && button.getAttribute('href') !== loadedFileURLs[originalHref]) button.setAttribute('href', loadedFileURLs[originalHref]);
         button.setAttribute('download', fileName);
-        showNotification(t(`Сохранено: ${fileName}`, `Saved: ${fileName}`), 3000);
+        showNotification(t(`💾 Сохранено: ${fileName}`, `💾 Saved: ${fileName}`), 3000);
       } else {
-        showNotification(t(`Загружается: ${fileName}`, `Downloading: ${fileName}`), 3000);
+        showNotification(t(`⬇️ Загружается: ${fileName}`, `⬇️ Downloading: ${fileName}`), 3000);
       }
     });
   } else if (button.classList.contains('code')) {
@@ -2171,6 +2251,8 @@ async function showViewer(content, file, language, encoding, images, index) {
     viewerState.zoomed = false;
     viewerState.offsetX = 0;
     viewerState.offsetY = 0;
+
+    viewerImage.style.cursor = 'zoom-in';
 
     viewerArrowLeft.style.display = viewerState.images.length <= 1 ? 'none' : '';
     viewerArrowRight.style.display = viewerState.images.length <= 1 ? 'none' : '';
@@ -2468,7 +2550,7 @@ function startSwipeDrag(e) {
   }
 }
 viewerImage.addEventListener('mousedown', startSwipeDrag);
-viewerImage.addEventListener('touchstart', startSwipeDrag);
+viewerImageContainer.addEventListener('touchstart', startSwipeDrag);
 
 function moveSwipeDrag(e) {
   const clientX = getClientX(e);
@@ -2672,7 +2754,7 @@ document.addEventListener('keydown', e=>{
 });
 
 let inactivityTimer;
-const inactivityDelay = 3000;
+const inactivityDelay = 2000;
 let tapTimer = null;
 let touchStartX = 0;
 let touchStartY = 0;
@@ -2712,7 +2794,7 @@ function resetInactivityTimer() {
   inactivityTimer = setTimeout(hideUI, inactivityDelay);
 }
 
-['mousemove','mousedown','keydown'].forEach(event => {
+['mousemove', 'mousedown', 'keydown'].forEach(event => {
   if (isTouchDevice()) return;
   document.addEventListener(event, showUI);
 });
@@ -3150,7 +3232,7 @@ document.querySelectorAll('.link-card').forEach(card => {
   copyBtn.addEventListener('click', e => {
     e.preventDefault();
     navigator.clipboard.writeText(url).then(() => {
-      showNotification(t(`Ссылка скопирована: ${url}`, `Copied URL: ${url}`), 3000);
+      showNotification(t(`🔗 Ссылка скопирована: ${url}`, `🔗 Copied URL: ${url}`), 3000);
     });
   });
 
@@ -3266,7 +3348,7 @@ let currentLang = null;
 
 const translations = {
   'nav-link-1': "АВТОР",
-  'nav-link-2': "ПОРТФОЛИО",
+  'nav-link-2': "ПРОЕКТЫ",
   'nav-link-3': "СОЦСЕТИ",
 
   'chat-header': 'ИИ-АССИСТЕНТ',
@@ -3278,7 +3360,7 @@ const translations = {
   'about-text-3': 'Из Азербайджана',
   'about-text-4': `${age} лет`,
   'about-text-5': 'Я люблю сюжетные игры и фильмы, а также экспериментировать с креативными идеями. Развиваю свои навыки в веб-разработке, UI/UX и графическом дизайне, изучая новые техники и подходы.',
-  'about-text-6': 'Если вас интересует качественный кастомный сайт с современным дизайном &mdash; обращайтесь.',
+  // 'about-text-6': 'Если вас интересует качественный кастомный сайт с современным дизайном &mdash; обращайтесь.',
 
   'education-header': 'ОБРАЗОВАНИЕ',
   'education-text-1': 'Академия государственного управления при президенте Азербайджанской Республики',
@@ -3307,13 +3389,15 @@ const translations = {
   'overlay-links-header-s': 'ССЫЛКА',
   'overlay-links-header-p': 'ССЫЛКИ',
 
-  'personal-website-link-t': 'Вы уже здесь!',
-  'personal-website-link-d': 'Но вот ссылка, если хотите…',
+  'personal-website-link-t-1': 'Вы уже здесь!',
+  'personal-website-link-d-1': 'Но вот ссылка, если хотите…',
+  'personal-website-link-t-2': 'GitHub-репозиторий',
+  'personal-website-link-d-2': 'Содержит только front-end файлы.',
 
   'blasthack-link-t': 'Тема на BlastHack',
   'blasthack-link-d': 'Подробная тема на форуме, включающая: описание функций, требования, инструкции по установке, список изменений с историей версий и обсуждение сообщества с вопросами и ответами.',
 
-  'personal-website-d': '<b>Описание:</b> Кастомное одностраничное приложение, разработанное на ванильном JavaScript, с реализацией роутинга, управления состоянием, форм и валидации. Полностью адаптивное с кастомным UI и UX для десктопа и тач-устройств. Включает современный дизайн, плавные анимации, галерею изображений и просмотр кода. Интегрирован ИИ-чат на базе GPT с сохранением контекста. Backend на Node.js с использованием SQLite для хранения необходимых данных, включая дневные лимиты GPT-токенов. Идентификация пользователей и управление лимитами без классической авторизации с использованием UID и отпечатков устройств. Обеспечивает функции безопасности и защиты использования.',
+  'personal-website-d': '<b>Описание:</b> Кастомное одностраничное приложение, разработанное на ванильном JavaScript, с роутингом, управлением состоянием и валидацией. Полностью адаптивное с кастомным UI и UX для десктопа и тач-устройств. Включает современный дизайн, плавные анимации, галерею изображений и просмотр кода. Интегрирован ИИ-чат на базе GPT с сохранением контекста. Back-end на Node.js с использованием SQLite для хранения необходимых данных, включая дневные лимиты GPT-токенов. Идентификация пользователей и управление лимитами без классической авторизации с использованием UID и отпечатков устройств.',
   'personal-website-date-d': '<b>Разработка:</b> 30 Авг 2025 &mdash; 2 Дек 2025',
   'personal-website-date-s': '<b>Поддержка:</b> В процессе',
 

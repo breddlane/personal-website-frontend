@@ -6,7 +6,7 @@
 2. Chat
 3. Sections Content
   3.1. About Section
-  3.2. Portfolio Section
+  3.2. Projects Section
     3.2.1. Personal website
     3.2.2. Custom Interface
     3.2.3. VehicleTools
@@ -64,7 +64,7 @@
     </button>
     <ul id="nav-links">
       <li><a href="/about" class="nav-link" data-section="about" data-ru="nav-link-1">ABOUT</a></li>
-      <li><a href="/portfolio" class="nav-link" data-section="portfolio" data-ru="nav-link-2">PORTFOLIO</a></li>
+      <li><a href="/projects" class="nav-link" data-section="projects" data-ru="nav-link-2">PROJECTS</a></li>
       <li><a href="/socials" class="nav-link" data-section="socials" data-ru="nav-link-3">SOCIALS</a></li>
     </ul>
     <div id="toggle-lang">
@@ -75,6 +75,10 @@
     </div>
   </nav>
   <div id="nav-blur-overlay"></div>
+
+  <div id="loading-progress">
+    <div id="loading-progress-bar"></div>
+  </div>
 
   <!-- 2. Chat -->
   <div id="chat-overlay"></div>
@@ -118,7 +122,7 @@
               <h3 data-ru="about-text-3">From Azerbaijan</h3>
               <h3 data-ru="about-text-4"><span id="age"></span> years old</h3>
               <p data-ru="about-text-5">I enjoy story-driven games, movies, and exploring creative ideas. I’m developing my skills in web development, UI/UX, and graphic design, exploring new techniques and approaches along the way.</p>
-              <p><b data-ru="about-text-6">If you’re interested in a high-quality custom website with modern design, feel free to reach out.</b></p>
+              <!-- <p><b data-ru="about-text-6">If you’re interested in a high-quality custom website with modern design, feel free to reach out.</b></p> -->
             </div>
           </div>
           <div id="about-side">
@@ -168,16 +172,16 @@
       </div>
     </section>
 
-    <!-- 3.2. Portfolio Section -->
-    <section id="portfolio" class="section">
+    <!-- 3.2. Projects Section -->
+    <section id="projects" class="section">
       <div class="section-inner">
-        <div id="portfolio-wrapper">
+        <div id="projects-wrapper">
           <div class="projects-block main-block">
             <div class="main-block-shine"></div>
             <h2 data-ru="web-header">WEB</h2>
             <ul class="projects-list">
               <li>
-                <a href="/portfolio/personal-website" data-section="personal-website">
+                <a href="/projects/personal-website" data-section="personal-website">
                   <span class="icon fullstack"></span>
                   <span class="icon personal"></span>
                   <span class="project-text" data-ru="personal-website">Personal website</span>
@@ -190,14 +194,14 @@
             <h2 data-ru="software-header">SOFTWARE</h2>
             <ul class="projects-list">
               <li>
-                <a href="/portfolio/custom-interface" data-section="custom-interface">
+                <a href="/projects/custom-interface" data-section="custom-interface">
                   <span class="icon game-mod"></span>
                   <span class="icon community"></span>
                   <span class="project-text">Custom Interface</span>
                 </a>
               </li>
               <li>
-                <a href="/portfolio/vehicletools" data-section="vehicletools">
+                <a href="/projects/vehicletools" data-section="vehicletools">
                   <span class="icon game-mod"></span>
                   <span class="icon community"></span>
                   <span class="project-text">VehicleTools</span>
@@ -210,8 +214,8 @@
             <h2 data-ru="graphics-header">GRAPHICS</h2>
             <ul class="projects-list">
               <li>
-                <a href="/portfolio/personal-logo" data-section="personal-logo">
-                  <span class="icon vector-design"></span>
+                <a href="/projects/personal-logo" data-section="personal-logo">
+                  <span class="icon logo-design"></span>
                   <span class="icon personal"></span>
                   <span class="project-text" data-ru="personal-logo">Personal logo</span>
                 </a>
@@ -296,19 +300,30 @@
                     </div>
                   </div>
                 </div>
-                <p class="overlay-text" data-ru="personal-website-d"><b>Description:</b> A custom single-page application built with vanilla JavaScript, featuring routing, state management, forms, and validation. Fully responsive with custom UI and UX on both desktop and touch devices. Includes a modern design, smooth animations, an image gallery, and a code viewer. Integrated AI chat powered by GPT with context retention. Backend powered by Node.js with SQLite for storing necessary data, including daily GPT token limits. User identification and limits handled without traditional authentication using UID and fingerprinting. Provides security and usage protection features.</p>
+                <p class="overlay-text" data-ru="personal-website-d"><b>Description:</b> A custom single-page application built with vanilla JavaScript, featuring routing, state management, and validation. Fully responsive with custom UI and UX on both desktop and touch devices. Includes a modern design, smooth animations, an image gallery, and a code viewer. Integrated AI chat powered by GPT with context retention. Back-end powered by Node.js with SQLite for storing necessary data, including daily GPT token limits. User identification and limits handled without traditional authentication using UID and fingerprinting.</p>
                 <p class="overlay-text" data-ru="supported-lang-1"><b>Supported languages:</b> English, Russian</p>
                 <div class="project-development-dates">
                   <p class="overlay-text" data-ru="personal-website-date-d"><b>Development:</b> 30 Aug 2025 &mdash; 2 Dec 2025</p>
                   <p class="overlay-text" data-ru="personal-website-date-s"><b>Support:</b> Ongoing</p>
                 </div>
-                <h3 data-ru="overlay-links-header-s">LINK</h3>
+                <h3 data-ru="overlay-links-header-p">LINKS</h3>
                 <div class="project-links">
                   <a href="https://breddlane.com" class="link-card" target="_blank" rel="noopener noreferrer">
                     <img class="link-card-icon" alt="Website icon">
                     <div class="link-card-info">
-                      <h4 class="link-card-title" data-ru="personal-website-link-t">You're already here!</h4>
-                      <p class="link-card-description" data-ru="personal-website-link-d">But here's the link if you want...</p>
+                      <h4 class="link-card-title" data-ru="personal-website-link-t-1">You're already here!</h4>
+                      <p class="link-card-description" data-ru="personal-website-link-d-1">But here's the link if you want...</p>
+                    </div>
+                    <div class="button-wrapper">
+                      <button class="overlay-button copy"></button>
+                      <div class="tooltip" data-ru="tooltip-copy">Copy URL</div>
+                    </div>
+                  </a>
+                  <a href="https://github.com/breddlane/personal-website-frontend" class="link-card" target="_blank" rel="noopener noreferrer">
+                    <img class="link-card-icon" alt="Website icon">
+                    <div class="link-card-info">
+                      <h4 class="link-card-title" data-ru="personal-website-link-t-2">GitHub Repo</h4>
+                      <p class="link-card-description" data-ru="personal-website-link-d-2">Contains only front-end files.</p>
                     </div>
                     <div class="button-wrapper">
                       <button class="overlay-button copy"></button>
@@ -588,19 +603,19 @@
             <h2 data-ru="socials-header-2">PROFESSIONAL</h2>
             <ul class="socials-list">
               <li>
-                <a href="https://www.linkedin.com/in/breddlane/" target="_blank" rel="noopener noreferrer">
-                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" fill="currentColor">
-                    <path d="M196.064.25C88.347.25.187 88.408.187 196.127v607.841c0 107.717 88.158 195.845 195.877 195.845h607.841c107.718 0 195.845-88.127 195.845-195.845V196.127C999.75 88.41 911.623.25 803.905.25H196.064zm49.266 164.948c51.648 0 83.461 33.906 84.443 78.475c0 43.585-32.797 78.444-85.442 78.444h-.969c-50.665 0-83.412-34.857-83.412-78.444c0-44.568 33.738-78.475 85.379-78.475zm445.08 208.31c99.329 0 173.79 64.922 173.79 204.436v260.449H713.247V595.406c0-61.06-21.847-102.718-76.476-102.718c-41.704 0-66.562 28.078-77.476 55.202c-3.987 9.704-4.967 23.257-4.967 36.832v253.671H403.375s1.981-411.613 0-454.233h150.984v64.324c20.06-30.95 55.942-74.977 136.051-74.977zm-521.556 10.685h150.953v454.202H168.854V384.193z"/>
-                  </svg>
-                  <span>LinkedIn</span>
-                </a>
-              </li>
-              <li>
                 <a href="https://github.com/breddlane" target="_blank" rel="noopener noreferrer">
                   <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 432 416" fill="currentColor">
                     <path d="M213.5 0q88.5 0 151 62.5T427 213q0 70-41 125.5T281 416q-14 2-14-11v-58q0-27-15-40q44-5 70.5-27t26.5-77q0-34-22-58q11-26-2-57q-18-5-58 22q-26-7-54-7t-53 7q-18-12-32.5-17.5T107 88h-6q-12 31-2 57q-22 24-22 58q0 55 27 77t70 27q-11 10-13 29q-42 18-62-18q-12-20-33-22q-2 0-4.5.5t-5 3.5t8.5 9q14 7 23 31q1 2 2 4.5t6.5 9.5t13 10.5T130 371t30-2v36q0 13-14 11q-64-22-105-77.5T0 213q0-88 62.5-150.5T213.5 0z"/>
                   </svg>
                   <span>GitHub</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/breddlane/" target="_blank" rel="noopener noreferrer">
+                  <svg class="social-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" fill="currentColor">
+                    <path d="M196.064.25C88.347.25.187 88.408.187 196.127v607.841c0 107.717 88.158 195.845 195.877 195.845h607.841c107.718 0 195.845-88.127 195.845-195.845V196.127C999.75 88.41 911.623.25 803.905.25H196.064zm49.266 164.948c51.648 0 83.461 33.906 84.443 78.475c0 43.585-32.797 78.444-85.442 78.444h-.969c-50.665 0-83.412-34.857-83.412-78.444c0-44.568 33.738-78.475 85.379-78.475zm445.08 208.31c99.329 0 173.79 64.922 173.79 204.436v260.449H713.247V595.406c0-61.06-21.847-102.718-76.476-102.718c-41.704 0-66.562 28.078-77.476 55.202c-3.987 9.704-4.967 23.257-4.967 36.832v253.671H403.375s1.981-411.613 0-454.233h150.984v64.324c20.06-30.95 55.942-74.977 136.051-74.977zm-521.556 10.685h150.953v454.202H168.854V384.193z"/>
+                  </svg>
+                  <span>LinkedIn</span>
                 </a>
               </li>
             </ul>
