@@ -52,6 +52,27 @@ const fingerprintData = {
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown'
 };
 
+function sendFingerprint() {
+  fetch('/track-user', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      uid,
+      ...fingerprintData,
+
+      language: userLang || 'Unknown',
+      browser: detectBrowser(),
+      deviceType: isMobileDevice() ? 'Mobile' : 'Desktop',
+      resolution: `${window.screen.width}x${window.screen.height}`,
+      referrer: document.referrer && document.referrer.length > 0 ? document.referrer.slice(0, 100) : 'Direct'
+    })
+  });
+}
+
+const firstVisit = localStorage.getItem('dataConsentShown') !== 'true';
+
+if (!firstVisit) sendFingerprint();
+
 const loadedFiles = {};
 const loadedFileURLs = {};
 
@@ -287,27 +308,11 @@ function finishProgress() {
         navbar.classList.add('fully-loaded');
         languageSpanWidths();
 
-        const firstVisit = localStorage.getItem('dataConsentShown') !== 'true';
-
         if (firstVisit) {
           showNotification(t('⚠️ Сайт собирает технические данные и активность в чате для корректной работы', '⚠️ The site collects technical data and chat activity for proper functioning'), 8000);
           localStorage.setItem('dataConsentShown', 'true');
+          sendFingerprint();
         }
-
-        fetch('/track-user', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            uid,
-            ...fingerprintData,
-
-            language: userLang || 'Unknown',
-            browser: detectBrowser(),
-            deviceType: isMobileDevice() ? 'Mobile' : 'Desktop',
-            resolution: `${window.screen.width}x${window.screen.height}`,
-            referrer: document.referrer && document.referrer.length > 0 ? document.referrer.slice(0, 100) : 'Direct'
-          })
-        });
 
         setTimeout(() => {
           if (!chatButtonHovered && localStorage.getItem('chatOpened') !== 'true') {
