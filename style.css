@@ -354,6 +354,7 @@ button:focus-visible {
   position: relative;
   padding-bottom: 4px;
   transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-touch-callout: none;
 }
 
 #nav-links a.touch-highlight {
@@ -1157,6 +1158,7 @@ button:focus-visible {
   font-size: 30px;
   white-space: nowrap;
   transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-touch-callout: none;
 }
 
 .projects-list a.touch-highlight,
@@ -1407,6 +1409,10 @@ button:focus-visible {
 .overlay-button.touch-highlight {
   background: var(--button-active);
   transform: scale(0.9);
+}
+
+.overlay-button.save {
+  -webkit-touch-callout: none;
 }
 
 .overlay-button svg {
@@ -2057,6 +2063,10 @@ button:focus-visible {
   font-size: 24px;
   white-space: nowrap;
   transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.copy-link {
+  -webkit-touch-callout: none;
 }
 
 .social-logo {

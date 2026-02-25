@@ -4,7 +4,7 @@
 
 This repository contains the **front-end** of a custom single-page application built with **vanilla JavaScript**, featuring **routing** and **state management**. Fully responsive with **custom UI/UX** for both desktop and touch devices. Includes a **modern design** with smooth animations, an **image gallery**, a **code viewer**, and an integrated **AI chat** (back-end powered by Node.js + SQLite, not included in this repo).
 
-For back-end functionality, see the [Back-end Note](#backend-note) section below.
+For back-end functionality, see the [Back-end Note](#back-end-note) section below.
 
 ## Features
 

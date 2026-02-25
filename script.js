@@ -223,9 +223,9 @@ const loadingProgressBar = document.getElementById('loading-progress-bar');
 let loadingFinished = false;
 let progressValue = 0;
 
-const FAST_PHASE_END = 40;
-const SLOW_PHASE_END = 80;
-const FAST_SPEED = 1.2;
+const FAST_PHASE_END = 30;
+const SLOW_PHASE_END = 90;
+const FAST_SPEED = 1;
 const SLOW_SPEED = 0.25;
 const FINISH_SPEED = 2;
 
@@ -246,7 +246,7 @@ function animateLoadingProgressBar() {
   }
 }
 
-function finishProgress() {
+function finishLoadingProgressBar() {
   return new Promise(resolve => {
     const interval = setInterval(() => {
       progressValue += FINISH_SPEED;
@@ -291,7 +291,7 @@ function finishProgress() {
     }
 
     loadingFinished = true;
-    await finishProgress();
+    await finishLoadingProgressBar();
     await new Promise(r => setTimeout(r, 200));
 
     loadingProgress.style.opacity = '0';
@@ -2007,25 +2007,23 @@ overlayButtons.forEach(button => {
   if (overlayIcons[type]) button.innerHTML = overlayIcons[type];
 
   if (button.classList.contains('save')) {
-    button.dataset.originalHref = button.getAttribute('href');
-    const tooltip = button.parentElement.querySelector('.tooltip');
+    button.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const src = button.getAttribute('href');
+      const fileName = src.split('/').pop();
 
-    button.addEventListener('mouseenter', () => {
-      const originalHref = button.dataset.originalHref;
-      tooltip.textContent = loadedFiles[originalHref] ? t('Сохранить файл', 'Save File') : t('Загрузить файл', 'Download File');
-      if (!isTouchDevice() && loadedFiles[originalHref] && button.getAttribute('href') !== loadedFileURLs[originalHref]) button.setAttribute('href', loadedFileURLs[originalHref]);
-    });
+      if (loadedFiles[src]) {
+        downloadBlobURL(loadedFileURLs[src], fileName);
 
-    button.addEventListener('click', () => {
-      const originalHref = button.dataset.originalHref;
-      const fileName = originalHref.split('/').pop();
-
-      if (loadedFiles[originalHref]) {
-        if (!isTouchDevice() && button.getAttribute('href') !== loadedFileURLs[originalHref]) button.setAttribute('href', loadedFileURLs[originalHref]);
-        button.setAttribute('download', fileName);
         showNotification(t(`💾 Сохранено: ${fileName}`, `💾 Saved: ${fileName}`), 3000);
       } else {
         showNotification(t(`⬇️ Загружается: ${fileName}`, `⬇️ Downloading: ${fileName}`), 3000);
+
+        await loadFile(src, 5);
+
+        downloadBlobURL(loadedFileURLs[src], fileName);
+
+        button.parentElement.querySelector('.tooltip').textContent = t('Сохранить файл', 'Save File');
       }
     });
   } else if (button.classList.contains('code')) {
@@ -2036,6 +2034,15 @@ overlayButtons.forEach(button => {
     });
   }
 });
+
+function downloadBlobURL(url, fileName) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
 
 function getProjectCaptions() {
   const captionsMap = {
@@ -2274,10 +2281,13 @@ async function showViewer(content, file, language, encoding, images, index) {
     viewerFileName.textContent = file.split('/').pop();
     viewerCodePre.innerHTML = '';
 
-    const blob = await loadFile(file, 10);
+    const blob = await loadFile(file, 5);
     const buffer = await blob.arrayBuffer();
     const decoder = new TextDecoder(encoding || 'utf-8');
     const text = decoder.decode(buffer);
+
+    const saveButton = document.querySelector(`.overlay-button.save[href="${file}"]`);
+    saveButton.parentElement.querySelector('.tooltip').textContent = t('Сохранить файл', 'Save File');
 
     const newCode = document.createElement('code');
     newCode.className = `language-${language}`;
@@ -3384,6 +3394,7 @@ const translations = {
   'personal-logo': 'Личный логотип',
 
   'overlay-back': '❮ Назад',
+  'tooltip-save': 'Загрузить файл',
   'tooltip-code': 'Посмотреть код',
   'tooltip-copy': 'Скопировать ссылку',
   'overlay-files-header-s': 'ФАЙЛ',
