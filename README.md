@@ -17,12 +17,6 @@ For back-end functionality, see the [Back-end Note](#back-end-note) section belo
 - Code viewer
 - AI chat interface with context retention (requires back-end)
 
-## Font Note
-
-The **Century Gothic** font files have been removed from this repository.
-
-For proper display, it is recommended that **Century Gothic** is installed on your system.
-
 ## Back-end Note
 
 The AI chat, token management, and user analytics are handled by a **custom Node.js back-end with SQLite**. This repo **does not include the back-end**, but the front-end works fully when connected to the server.
