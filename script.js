@@ -73,66 +73,9 @@ const firstVisit = localStorage.getItem('dataConsentShown') !== 'true';
 
 if (!firstVisit) sendFingerprint();
 
-const loadedFiles = {};
-const loadedFileURLs = {};
-
-const minLoadTime = 1000;
-const startTime = Date.now();
-const bgContainer = document.getElementById('bg-container');
 const navbar = document.getElementById('navbar');
-const chatButtonTooltip = document.getElementById('chat-button-tooltip');
 const navLinks = document.getElementById('nav-links');
 const sections = document.querySelectorAll('.section');
-const firstSection = sections[0];
-
-async function blobToDataURL(blob) {
-  return new Promise(resolve => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.readAsDataURL(blob);
-  });
-}
-
-function isWebKit() {
-  const ualc = ua.toLowerCase();
-  return ualc.includes('applewebkit') && !ualc.includes('chrome') && !ualc.includes('crios') && !ualc.includes('fxios');
-}
-
-async function loadFile(src, maxAttempts = Infinity) {
-  if (loadedFiles[src]) return loadedFiles[src];
-
-  let attempts = 0;
-  const fileName = src.split('/').pop();
-  const ext = fileName.split('.').pop().toLowerCase();
-  const mediaTypes = ['mp4', 'webm', 'ogg', 'jpg', 'jpeg', 'png', 'gif', 'webp'];
-
-  while (attempts < maxAttempts) {
-    try {
-      const res = await fetch(src);
-      if (!res.ok) throw new Error(t(`Не удалось загрузить файл: ${fileName}`, `Failed to load file: ${fileName}`));
-
-      const blob = await res.blob();
-      loadedFiles[src] = blob;
-
-      let url;
-      if (mediaTypes.includes(ext) && isWebKit()) {
-        url = await blobToDataURL(blob);
-      } else {
-        url = URL.createObjectURL(blob);
-      }
-      loadedFileURLs[src] = url;
-
-      return blob;
-    } catch (err) {
-      attempts++;
-      if (attempts >= maxAttempts) {
-        showNotification(t(`❌ Не удалось загрузить файл: ${fileName}`, `❌ Failed to load file: ${fileName}`), 5000);
-        throw err;
-      }
-      await new Promise(r => setTimeout(r, 1000));
-    }
-  }
-}
 
 function pathToSection(path) {
   const clean = path.replace(/\/+$/, '').toLowerCase();
@@ -215,7 +158,57 @@ function routeFromPath() {
   }
 }
 
-let chatButtonHovered = false;
+async function blobToDataURL(blob) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
+}
+
+function isWebKit() {
+  const ualc = ua.toLowerCase();
+  return ualc.includes('applewebkit') && !ualc.includes('chrome') && !ualc.includes('crios') && !ualc.includes('fxios');
+}
+
+const loadedFiles = {};
+const loadedFileURLs = {};
+
+async function loadFile(src, maxAttempts = Infinity) {
+  if (loadedFiles[src]) return loadedFiles[src];
+
+  let attempts = 0;
+  const fileName = src.split('/').pop();
+  const ext = fileName.split('.').pop().toLowerCase();
+  const mediaTypes = ['mp4', 'webm', 'ogg', 'jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+  while (attempts < maxAttempts) {
+    try {
+      const res = await fetch(src);
+      if (!res.ok) throw new Error(t(`Не удалось загрузить файл: ${fileName}`, `Failed to load file: ${fileName}`));
+
+      const blob = await res.blob();
+      loadedFiles[src] = blob;
+
+      let url;
+      if (mediaTypes.includes(ext) && isWebKit()) {
+        url = await blobToDataURL(blob);
+      } else {
+        url = URL.createObjectURL(blob);
+      }
+      loadedFileURLs[src] = url;
+
+      return blob;
+    } catch (err) {
+      attempts++;
+      if (attempts >= maxAttempts) {
+        showNotification(t(`❌ Не удалось загрузить файл: ${fileName}`, `❌ Failed to load file: ${fileName}`), 5000);
+        throw err;
+      }
+      await new Promise(r => setTimeout(r, 1000));
+    }
+  }
+}
 
 const loadingProgress = document.getElementById('loading-progress');
 const loadingProgressBar = document.getElementById('loading-progress-bar');
@@ -259,6 +252,13 @@ function finishLoadingProgressBar() {
     }, 16);
   });
 }
+
+const minLoadTime = 1000;
+const startTime = Date.now();
+const bgContainer = document.getElementById('bg-container');
+const chatButtonTooltip = document.getElementById('chat-button-tooltip');
+
+let chatButtonHovered = false;
 
 (async function init() {
   animateLoadingProgressBar();
@@ -1256,7 +1256,7 @@ function updateProjectDescriptions() {
   document.querySelectorAll('.projects-list a .icon').forEach(icon => {
     if (icon.classList.contains('fullstack')) {
       icon.dataset.info = t(
-        'FULL-STACK: Кастомный вебсайт с front-end и back-end.',
+        'FULL-STACK: Кастомный вебсайт с фронтендом и бэкендом.',
         'FULL-STACK: Custom website with front-end and back-end.'
       );
     } else if (icon.classList.contains('game-mod')) {
@@ -3408,12 +3408,12 @@ const translations = {
   'personal-website-link-t-1': 'Вы уже здесь!',
   'personal-website-link-d-1': 'Но вот ссылка, если хотите…',
   'personal-website-link-t-2': 'GitHub-репозиторий',
-  'personal-website-link-d-2': 'Содержит только front-end файлы.',
+  'personal-website-link-d-2': 'Содержит только фронтенд файлы.',
 
   'blasthack-link-t': 'Тема на BlastHack',
   'blasthack-link-d': 'Подробная тема на форуме, включающая: описание функций, требования, инструкции по установке, список изменений с историей версий и обсуждение сообщества с вопросами и ответами.',
 
-  'personal-website-d': '<b>Описание:</b> Кастомное одностраничное приложение, разработанное на ванильном JavaScript, с роутингом, управлением состоянием и валидацией. Полностью адаптивное с кастомным UI и UX для десктопа и тач-устройств. Включает современный дизайн, плавные анимации, галерею изображений и просмотр кода. Интегрирован ИИ-чат на базе GPT с сохранением контекста. Back-end на Node.js с использованием SQLite для хранения необходимых данных, включая дневные лимиты GPT-токенов. Идентификация пользователей и управление лимитами без классической авторизации с использованием UID и отпечатков устройств.',
+  'personal-website-d': '<b>Описание:</b> Кастомное одностраничное приложение, разработанное на ванильном JavaScript, с поддержкой маршрутизации и управления состоянием. Полностью адаптивное, с плавными анимациями и кастомным UI/UX для десктопов и сенсорных устройств. Включает галерею изображений, просмотрщик кода и ИИ-чат на базе GPT с сохранением контекста. Бэкенд использует Node.js и SQLite для обработки пользовательских данных, контроля лимитов токенов и идентификации без традиционной аутентификации.',
   'personal-website-date-d': '<b>Разработка:</b> 30 Авг 2025 &mdash; 2 Дек 2025',
   'personal-website-date-s': '<b>Поддержка:</b> В процессе',
 
